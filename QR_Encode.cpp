@@ -1,7 +1,11 @@
 // QR_Encode.cpp : CQR_Encode クラス インプリメンテーション ファイル
 // Date 2006/05/17	Ver. 1.22	Psytec Inc.
 
+// If we're using windows
+#ifdef _MSC_VER
 #include "stdafx.h"
+#endif
+
 #include "QR_Encode.h"
 
 #ifdef _DEBUG
@@ -12,7 +16,7 @@ static char THIS_FILE[] = __FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // QRコードバージョン(型番)情報
-static QR_VERSIONINFO QR_VersonInfo[] = {{0}, // (ダミー:Ver.0)
+static QR_VERSIONINFO QR_VersionInfo[] = {{0}, // (ダミー:Ver.0)
 										 { 1, // Ver.1
 										    26,   19,   16,   13,    9,
 										   0,   0,   0,   0,   0,   0,   0,
@@ -606,7 +610,7 @@ CQR_Encode::‾CQR_Encode()
 // 引  数：誤り訂正レベル、型番(0=自動)、型番自動拡張フラグ、マスキング番号(-1=自動)、エンコードデータ、エンコードデータ長
 // 戻り値：エンコード成功時=TRUE、データなし、または容量オーバー時=FALSE
 
-BOOL CQR_Encode::EncodeData(int nLevel, int nVersion, BOOL bAutoExtent, int nMaskingNo, LPCSTR lpsSource, int ncSource)
+bool CQR_Encode::EncodeData(int nLevel, int nVersion, bool bAutoExtent, int nMaskingNo, LPCSTR lpsSource, int ncSource)
 {
 	int i, j;
 
@@ -646,7 +650,7 @@ BOOL CQR_Encode::EncodeData(int nLevel, int nVersion, BOOL bAutoExtent, int nMas
 	}
 
 	// ターミネータコード"0000"付加
-	int ncDataCodeWord = QR_VersonInfo[m_nVersion].ncDataCodeWord[nLevel];
+	int ncDataCodeWord = QR_VersionInfo[m_nVersion].ncDataCodeWord[nLevel];
 
 	int ncTerminater = min(4, (ncDataCodeWord * 8) - m_ncDataCodeWordBit);
 
@@ -664,21 +668,21 @@ BOOL CQR_Encode::EncodeData(int nLevel, int nVersion, BOOL bAutoExtent, int nMas
 	}
 
 	// 総コードワード算出エリアクリア
-	m_ncAllCodeWord = QR_VersonInfo[m_nVersion].ncAllCodeWord;
+	m_ncAllCodeWord = QR_VersionInfo[m_nVersion].ncAllCodeWord;
 	ZeroMemory(m_byAllCodeWord, m_ncAllCodeWord);
 
 	int nDataCwIndex = 0; // データコードワード処理位置
 
 	// データブロック分割数
-	int ncBlock1 = QR_VersonInfo[m_nVersion].RS_BlockInfo1[nLevel].ncRSBlock;
-	int ncBlock2 = QR_VersonInfo[m_nVersion].RS_BlockInfo2[nLevel].ncRSBlock;
+	int ncBlock1 = QR_VersionInfo[m_nVersion].RS_BlockInfo1[nLevel].ncRSBlock;
+	int ncBlock2 = QR_VersionInfo[m_nVersion].RS_BlockInfo2[nLevel].ncRSBlock;
 	int ncBlockSum = ncBlock1 + ncBlock2;
 
 	int nBlockNo = 0; // 処理中ブロック番号
 
 	// ブロック別データコードワード数
-	int ncDataCw1 = QR_VersonInfo[m_nVersion].RS_BlockInfo1[nLevel].ncDataCodeWord;
-	int ncDataCw2 = QR_VersonInfo[m_nVersion].RS_BlockInfo2[nLevel].ncDataCodeWord;
+	int ncDataCw1 = QR_VersionInfo[m_nVersion].RS_BlockInfo1[nLevel].ncDataCodeWord;
+	int ncDataCw2 = QR_VersionInfo[m_nVersion].RS_BlockInfo2[nLevel].ncDataCodeWord;
 
 	// データコードワードインターリーブ配置
 	for (i = 0; i < ncBlock1; ++i)
@@ -710,8 +714,8 @@ BOOL CQR_Encode::EncodeData(int nLevel, int nVersion, BOOL bAutoExtent, int nMas
 	}
 
 	// ブロック別ＲＳコードワード数(※現状では同数)
-	int ncRSCw1 = QR_VersonInfo[m_nVersion].RS_BlockInfo1[nLevel].ncAllCodeWord - ncDataCw1;
-	int ncRSCw2 = QR_VersonInfo[m_nVersion].RS_BlockInfo2[nLevel].ncAllCodeWord - ncDataCw2;
+	int ncRSCw1 = QR_VersionInfo[m_nVersion].RS_BlockInfo1[nLevel].ncAllCodeWord - ncDataCw1;
+	int ncRSCw2 = QR_VersionInfo[m_nVersion].RS_BlockInfo2[nLevel].ncAllCodeWord - ncDataCw2;
 
 	/////////////////////////////////////////////////////////////////////////
 	// ＲＳコードワード算出
@@ -783,7 +787,7 @@ int CQR_Encode::GetEncodeVersion(int nVersion, LPCSTR lpsSource, int ncLength)
 			{
 				for (j = 1; j <= 9; ++j)
 				{
-					if ((m_ncDataCodeWordBit + 7) / 8 <= QR_VersonInfo[j].ncDataCodeWord[m_nLevel])
+					if ((m_ncDataCodeWordBit + 7) / 8 <= QR_VersionInfo[j].ncDataCodeWord[m_nLevel])
 						return j;
 				}
 			}
@@ -791,7 +795,7 @@ int CQR_Encode::GetEncodeVersion(int nVersion, LPCSTR lpsSource, int ncLength)
 			{
 				for (j = 10; j <= 26; ++j)
 				{
-					if ((m_ncDataCodeWordBit + 7) / 8 <= QR_VersonInfo[j].ncDataCodeWord[m_nLevel])
+					if ((m_ncDataCodeWordBit + 7) / 8 <= QR_VersionInfo[j].ncDataCodeWord[m_nLevel])
 						return j;
 				}
 			}
@@ -799,7 +803,7 @@ int CQR_Encode::GetEncodeVersion(int nVersion, LPCSTR lpsSource, int ncLength)
 			{
 				for (j = 27; j <= 40; ++j)
 				{
-					if ((m_ncDataCodeWordBit + 7) / 8 <= QR_VersonInfo[j].ncDataCodeWord[m_nLevel])
+					if ((m_ncDataCodeWordBit + 7) / 8 <= QR_VersionInfo[j].ncDataCodeWord[m_nLevel])
 						return j;
 				}
 			}
@@ -816,7 +820,7 @@ int CQR_Encode::GetEncodeVersion(int nVersion, LPCSTR lpsSource, int ncLength)
 // 引  数：入力データ、入力データ長、バージョン(型番)グループ
 // 戻り値：エンコード成功時=TRUE
 
-BOOL CQR_Encode::EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup)
+bool CQR_Encode::EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup)
 {
 	ZeroMemory(m_nBlockLength, sizeof(m_nBlockLength));
 
@@ -1140,15 +1144,15 @@ BOOL CQR_Encode::EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup)
 			{
 				if (j < m_nBlockLength[i] - 1)
 				{
-					wBinCode = (WORD)((AlphabetToBinaly(lpsSource[ncComplete + j]) * 45) +
-									   AlphabetToBinaly(lpsSource[ncComplete + j + 1]));
+					wBinCode = (WORD)((AlphabetToBinary(lpsSource[ncComplete + j]) * 45) +
+									   AlphabetToBinary(lpsSource[ncComplete + j + 1]));
 
 					m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, wBinCode, 11);
 				}
 				else
 				{
 					// 端数１バイト
-					wBinCode = (WORD)AlphabetToBinaly(lpsSource[ncComplete + j]);
+					wBinCode = (WORD)AlphabetToBinary(lpsSource[ncComplete + j]);
 
 					m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, wBinCode, 6);
 				}
@@ -1190,7 +1194,7 @@ BOOL CQR_Encode::EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup)
 			// 漢字モードでビット列保存
 			for (j = 0; j < m_nBlockLength[i] / 2; ++j)
 			{
-				WORD wBinCode = KanjiToBinaly((WORD)(((BYTE)lpsSource[ncComplete + (j * 2)] << 8) + (BYTE)lpsSource[ncComplete + (j * 2) + 1]));
+				WORD wBinCode = KanjiToBinary((WORD)(((BYTE)lpsSource[ncComplete + (j * 2)] << 8) + (BYTE)lpsSource[ncComplete + (j * 2) + 1]));
 
 				m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, wBinCode, 13);
 			}
@@ -1281,7 +1285,7 @@ int CQR_Encode::SetBitStream(int nIndex, WORD wData, int ncData)
 // 引  数：調査文字
 // 戻り値：該当時=TRUE
 
-BOOL CQR_Encode::IsNumeralData(unsigned char c)
+bool CQR_Encode::IsNumeralData(unsigned char c)
 {
 	if (c >= '0' && c <= '9')
 		return TRUE;
@@ -1296,7 +1300,7 @@ BOOL CQR_Encode::IsNumeralData(unsigned char c)
 // 引  数：調査文字
 // 戻り値：該当時=TRUE
 
-BOOL CQR_Encode::IsAlphabetData(unsigned char c)
+bool CQR_Encode::IsAlphabetData(unsigned char c)
 {
 	if (c >= '0' && c <= '9')
 		return TRUE;
@@ -1318,7 +1322,7 @@ BOOL CQR_Encode::IsAlphabetData(unsigned char c)
 // 戻り値：該当時=TRUE
 // 備  考：EBBFh 以降の S-JIS は対象外
 
-BOOL CQR_Encode::IsKanjiData(unsigned char c1, unsigned char c2)
+bool CQR_Encode::IsKanjiData(unsigned char c1, unsigned char c2)
 {
 	if (((c1 >= 0x81 && c1 <= 0x9f) || (c1 >= 0xe0 && c1 <= 0xeb)) && (c2 >= 0x40))
 	{
@@ -1333,12 +1337,12 @@ BOOL CQR_Encode::IsKanjiData(unsigned char c1, unsigned char c2)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CQR_Encode::AlphabetToBinaly
+// CQR_Encode::AlphabetToBinary
 // 用  途：英数字モード文字のバイナリ化
 // 引  数：対象文字
 // 戻り値：バイナリ値
 
-BYTE CQR_Encode::AlphabetToBinaly(unsigned char c)
+BYTE CQR_Encode::AlphabetToBinary(unsigned char c)
 {
 	if (c >= '0' && c <= '9') return (unsigned char)(c - '0');
 
@@ -1365,12 +1369,12 @@ BYTE CQR_Encode::AlphabetToBinaly(unsigned char c)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CQR_Encode::KanjiToBinaly
+// CQR_Encode::KanjiToBinary
 // 用  途：漢字モード文字のバイナリ化
 // 引  数：対象文字
 // 戻り値：バイナリ値
 
-WORD CQR_Encode::KanjiToBinaly(WORD wc)
+WORD CQR_Encode::KanjiToBinary(WORD wc)
 {
 	if (wc >= 0x8140 && wc <= 0x9ffc)
 		wc -= 0x8140;
@@ -1513,14 +1517,14 @@ void CQR_Encode::SetFunctionModule()
 	SetVersionPattern();
 
 	// 位置合わせパターン
-	for (i = 0; i < QR_VersonInfo[m_nVersion].ncAlignPoint; ++i)
+	for (i = 0; i < QR_VersionInfo[m_nVersion].ncAlignPoint; ++i)
 	{
-		SetAlignmentPattern(QR_VersonInfo[m_nVersion].nAlignPoint[i], 6);
-		SetAlignmentPattern(6, QR_VersonInfo[m_nVersion].nAlignPoint[i]);
+		SetAlignmentPattern(QR_VersionInfo[m_nVersion].nAlignPoint[i], 6);
+		SetAlignmentPattern(6, QR_VersionInfo[m_nVersion].nAlignPoint[i]);
 
-		for (j = 0; j < QR_VersonInfo[m_nVersion].ncAlignPoint; ++j)
+		for (j = 0; j < QR_VersionInfo[m_nVersion].ncAlignPoint; ++j)
 		{
-			SetAlignmentPattern(QR_VersonInfo[m_nVersion].nAlignPoint[i], QR_VersonInfo[m_nVersion].nAlignPoint[j]);
+			SetAlignmentPattern(QR_VersionInfo[m_nVersion].nAlignPoint[i], QR_VersionInfo[m_nVersion].nAlignPoint[j]);
 		}
 	}
 
@@ -1686,7 +1690,7 @@ void CQR_Encode::SetMaskingPattern(int nPatternNo)
 		{
 			if (! (m_byModuleData[j][i] & 0x20)) // 機能モジュールを除外
 			{
-				BOOL bMask;
+				bool bMask;
 
 				switch (nPatternNo)
 				{

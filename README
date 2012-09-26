@@ -1,0 +1,21 @@
+QRImage
+=======
+
+A copy of the psytec QRImage library (http://www.psytec.co.jp/freesoft/02/)
+
+The original Windows files have been moved into the windows subdirectory. The code of generating the QRCode is in QR_Encode.h/cpp
+
+The original psytec files are under the following license:
+
+
+ ・本ソフトウェアの配布は自由です。
+ ・ソースコードの一部または全部の使用、及び改変しての使用を認めます。
+ ・ソースコードを使用する際に弊社に許可を求める必要はなく、また弊社名の記載も不要です。
+
+Which google translates as:
+
+· Distribution of this software is free.
+· Recognize the use of part or all of the source code, the use of it and modify.
+· It is not necessary according to the name of our need to ask permission to us when you use the source code, nor.
+
+Which is "more or less" BSD.

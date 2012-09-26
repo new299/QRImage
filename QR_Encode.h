@@ -75,12 +75,12 @@ class CQR_Encode
 // 構築/消滅
 public:
 	CQR_Encode();
-	‾CQR_Encode();
+	~CQR_Encode();
 
 public:
 	int m_nLevel;		// 誤り訂正レベル
 	int m_nVersion;		// バージョン(型番)
-	BOOL m_bAutoExtent;	// バージョン(型番)自動拡張指定フラグ
+	bool m_bAutoExtent;	// バージョン(型番)自動拡張指定フラグ
 	int m_nMaskingNo;	// マスキングパターン番号
 
 public:
@@ -90,7 +90,7 @@ public:
 	// bit4:機能モジュール描画データ
 	// bit1:エンコードデータ
 	// bit0:マスク後エンコード描画データ
-	// 20hとの論理和により機能モジュール判定、11hとの論理和により描画（最終的にはBOOL値化）
+	// 20hとの論理和により機能モジュール判定、11hとの論理和により描画（最終的にはbool値化）
 
 private:
 	int m_ncDataCodeWordBit; // データコードワードビット長
@@ -106,22 +106,22 @@ private:
 
 // データエンコード関連ファンクション
 public:
-	BOOL EncodeData(int nLevel, int nVersion, BOOL bAutoExtent, int nMaskingNo, LPCSTR lpsSource, int ncSource = 0);
+	bool EncodeData(int nLevel, int nVersion, bool bAutoExtent, int nMaskingNo, LPCSTR lpsSource, int ncSource = 0);
 
 private:
 	int GetEncodeVersion(int nVersion, LPCSTR lpsSource, int ncLength);
-	BOOL EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup);
+	bool EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup);
 
 	int GetBitLength(BYTE nMode, int ncData, int nVerGroup);
 
 	int SetBitStream(int nIndex, WORD wData, int ncData);
 
-	BOOL IsNumeralData(unsigned char c);
-	BOOL IsAlphabetData(unsigned char c);
-	BOOL IsKanjiData(unsigned char c1, unsigned char c2);
+	bool IsNumeralData(unsigned char c);
+	bool IsAlphabetData(unsigned char c);
+	bool IsKanjiData(unsigned char c1, unsigned char c2);
 
-	BYTE AlphabetToBinaly(unsigned char c);
-	WORD KanjiToBinaly(WORD wc);
+	BYTE AlphabetToBinary(unsigned char c);
+	WORD KanjiToBinary(WORD wc);
 
 	void GetRSCodeWord(LPBYTE lpbyRSWork, int ncDataCodeWord, int ncRSCodeWord);
 
