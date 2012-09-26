@@ -88,11 +88,14 @@ public:
 public:
 	int m_nSymbleSize;
 	uint8_t m_byModuleData[MAX_MODULESIZE][MAX_MODULESIZE]; // [x][y]
-	// bit5:機能モジュール（マスキング対象外）フラグ
-	// bit4:機能モジュール描画データ
-	// bit1:エンコードデータ
-	// bit0:マスク後エンコード描画データ
+	// bit5:機能モジュール（マスキング対象外）フラグ: Functional module, not subject to masking
+	// bit4:機能モジュール描画データ: Drawing data function module
+	// bit1:エンコードデータ: Encoded data
+	// bit0:マスク後エンコード描画データ: Data after masking
 	// 20hとの論理和により機能モジュール判定、11hとの論理和により描画（最終的にはbool値化）
+  // Awful google translate of above line:
+  // Determined by the logical sum of the function module 20h, drawing (and eventually binarization bool).
+  // Drawing (and eventually binarization bool) The logical sum of the 11h
 
 private:
 	int m_ncDataCodeWordBit; // データコードワードビット長
@@ -130,7 +133,6 @@ private:
 // モジュール配置関連ファンクション
 private:
 	void FormatModule();
-
 	void SetFunctionModule();
 	void SetFinderPattern(int x, int y);
 	void SetAlignmentPattern(int x, int y);

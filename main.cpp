@@ -34,21 +34,38 @@ int main(int argc, char *argv[])
   // *** length is taken from NULL termination, however can also be passed by parameter.
 
 
-  uint8_t QR_m_data[3917]; //max possible bits resolution 177*177/8+1
-  CQR_Encode encoder;
+  uint8_t data[3917]; // maximum number of bytes is 3917
 
-  int QR_width=encoder.EncodeData(level,version,inputdata,0,QR_m_data);
+  CQR_Encode encoder;
+  bool ok = encoder.EncodeData(level,version,0,-1,inputdata,0);
+  if(ok == false) {
+    printf("Encoding failed\n");
+    return 1;
+  }
+
+
+  int QR_width = encoder.m_nSymbleSize;
 
   // Write the data to the output file
-  FILE *outputfile=fopen(argv[2],"w");
-  int size = ((QR_width*QR_width)/8)+1;
-  fwrite(QR_m_data,size,1,outputfile);
-  fclose(outputfile);
+  //FILE *outputfile=fopen(argv[2],"w");
+  //int size = ((QR_width*QR_width)/8)+1;
+  //fwrite(QR_m_data,size,1,outputfile);
+  //fclose(outputfile);
 
 
   // This code dumps the QR code to the screen as ASCII.
   printf("QR Code width: %u\n",QR_width);
 
+  
+  for(int y=0;y<QR_width;y++) {
+    for(int x=0;x<QR_width;x++) {
+      if (encoder.m_byModuleData[x][y]) { printf("1"); }
+                                   else { printf("0"); }
+    }
+    printf("\n");
+  }
+
+/* for binary representation 
   int bit_count=0;
   for(n=0;n<size;n++) {
     int b=0;
@@ -59,6 +76,7 @@ int main(int argc, char *argv[])
       bit_count++;
     }
   }
+*/
 
   return 0;
 }

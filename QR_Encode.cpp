@@ -6,7 +6,7 @@
 #include "stdafx.h"
 #endif
 
-
+#include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -626,8 +626,9 @@ bool CQR_Encode::EncodeData(int nLevel, int nVersion, bool bAutoExtent, int nMas
 	// データ長が指定されていない場合は lstrlen によって取得
 	int ncLength = ncSource > 0 ? ncSource : strlen((char *) lpsSource);
 
-	if (ncLength == 0)
+	if (ncLength == 0) {
 		return false; // データなし
+  }
 
 	// バージョン(型番)チェック
 	int nEncodeVersion = GetEncodeVersion(nVersion, lpsSource, ncLength);
