@@ -18,3 +18,5 @@ Which google translates as:
 · It is not necessary according to the name of our need to ask permission to us when you use the source code, nor.
 
 Which is "more or less" BSD.
+
+I've hacked it so it compiles under Linux. Porting things to ANSI C++ where required, there's an example Makefile, and main.cpp which you can try.
