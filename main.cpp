@@ -1,5 +1,6 @@
 #include "QR_Encode.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char *argv[])
 {
@@ -21,7 +22,7 @@ int main(int argc, char *argv[])
 
   // Read in the input data from file, terminate with 0.
   FILE *inputfile = fopen(argv[1],"r");
-  char inputdata[10000];
+  uint8_t inputdata[10000];
   int n;
   for(n=0;(!feof(inputfile)) && (n < 10000);n++) {
     int c = getc(inputfile);
@@ -33,15 +34,16 @@ int main(int argc, char *argv[])
   // *** length is taken from NULL termination, however can also be passed by parameter.
 
 
-  BYTE QR_m_data[3917]; //max possible bits resolution 177*177/8+1
+  uint8_t QR_m_data[3917]; //max possible bits resolution 177*177/8+1
   CQR_Encode encoder;
 
-  int QR_width=encoder.EncodeData(3,version,inputdata,0,QR_m_data);
+  int QR_width=encoder.EncodeData(level,version,inputdata,0,QR_m_data);
 
   // Write the data to the output file
   FILE *outputfile=fopen(argv[2],"w");
+  int size = ((QR_width*QR_width)/8)+1;
   fwrite(QR_m_data,size,1,outputfile);
-  fclose(f);
+  fclose(outputfile);
 
 
   // This code dumps the QR code to the screen as ASCII.

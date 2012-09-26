@@ -8,6 +8,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <stdint.h>
+
 /////////////////////////////////////////////////////////////////////////////
 // 定数
 
@@ -28,8 +30,8 @@
 #define QR_VRESION_M	1 // 10 〜 26
 #define QR_VRESION_L	2 // 27 〜 40
 
-#define MAX_ALLCODEWORD	 3706 // 総コードワード数最大値
-#define MAX_DATACODEWORD 2956 // データコードワード最大値(バージョン40-L)
+#define MAX_ALLCODEuint16_t	 3706 // 総コードワード数最大値
+#define MAX_DATACODEuint16_t 2956 // データコードワード最大値(バージョン40-L)
 #define MAX_CODEBLOCK	  153 // ブロックデータコードワード数最大値(ＲＳコードワードを含む)
 #define MAX_MODULESIZE	  177 // 一辺モジュール数最大値
 
@@ -85,7 +87,7 @@ public:
 
 public:
 	int m_nSymbleSize;
-	BYTE m_byModuleData[MAX_MODULESIZE][MAX_MODULESIZE]; // [x][y]
+	uint8_t m_byModuleData[MAX_MODULESIZE][MAX_MODULESIZE]; // [x][y]
 	// bit5:機能モジュール（マスキング対象外）フラグ
 	// bit4:機能モジュール描画データ
 	// bit1:エンコードデータ
@@ -94,36 +96,36 @@ public:
 
 private:
 	int m_ncDataCodeWordBit; // データコードワードビット長
-	BYTE m_byDataCodeWord[MAX_DATACODEWORD]; // 入力データエンコードエリア
+	uint8_t m_byDataCodeWord[MAX_DATACODEuint16_t]; // 入力データエンコードエリア
 
 	int m_ncDataBlock;
-	BYTE m_byBlockMode[MAX_DATACODEWORD];
-	int m_nBlockLength[MAX_DATACODEWORD];
+	uint8_t m_byBlockMode[MAX_DATACODEuint16_t];
+	int m_nBlockLength[MAX_DATACODEuint16_t];
 
 	int m_ncAllCodeWord; // 総コードワード数(ＲＳ誤り訂正データを含む)
-	BYTE m_byAllCodeWord[MAX_ALLCODEWORD]; // 総コードワード算出エリア
-	BYTE m_byRSWork[MAX_CODEBLOCK]; // ＲＳコードワード算出ワーク
+	uint8_t m_byAllCodeWord[MAX_ALLCODEuint16_t]; // 総コードワード算出エリア
+	uint8_t m_byRSWork[MAX_CODEBLOCK]; // ＲＳコードワード算出ワーク
 
 // データエンコード関連ファンクション
 public:
-	bool EncodeData(int nLevel, int nVersion, bool bAutoExtent, int nMaskingNo, LPCSTR lpsSource, int ncSource = 0);
+	bool EncodeData(int nLevel, int nVersion, bool bAutoExtent, int nMaskingNo, const uint8_t* lpsSource, int ncSource = 0);
 
 private:
-	int GetEncodeVersion(int nVersion, LPCSTR lpsSource, int ncLength);
-	bool EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup);
+	int GetEncodeVersion(int nVersion, const uint8_t* lpsSource, int ncLength);
+	bool EncodeSourceData(const uint8_t* lpsSource, int ncLength, int nVerGroup);
 
-	int GetBitLength(BYTE nMode, int ncData, int nVerGroup);
+	int GetBitLength(uint8_t nMode, int ncData, int nVerGroup);
 
-	int SetBitStream(int nIndex, WORD wData, int ncData);
+	int SetBitStream(int nIndex, uint16_t wData, int ncData);
 
 	bool IsNumeralData(unsigned char c);
 	bool IsAlphabetData(unsigned char c);
 	bool IsKanjiData(unsigned char c1, unsigned char c2);
 
-	BYTE AlphabetToBinary(unsigned char c);
-	WORD KanjiToBinary(WORD wc);
+	uint8_t AlphabetToBinary(unsigned char c);
+	uint16_t KanjiToBinary(uint16_t wc);
 
-	void GetRSCodeWord(LPBYTE lpbyRSWork, int ncDataCodeWord, int ncRSCodeWord);
+	void GetRSCodeWord(uint8_t *lpbyRSWork, int ncDataCodeWord, int ncRSCodeWord);
 
 // モジュール配置関連ファンクション
 private:

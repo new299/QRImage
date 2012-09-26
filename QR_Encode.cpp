@@ -6,6 +6,11 @@
 #include "stdafx.h"
 #endif
 
+
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#include <algorithm>
 #include "QR_Encode.h"
 
 #ifdef _DEBUG
@@ -462,7 +467,7 @@ static QR_VERSIONINFO QR_VersionInfo[] = {{0}, // (ダミー:Ver.0)
 
 /////////////////////////////////////////////////////////////////////////////
 // GF(2^8)α指数→整数変換テーブル
-static BYTE byExpToInt[] = {  1,   2,   4,   8,  16,  32,  64, 128,  29,  58, 116, 232, 205, 135,  19,  38,
+static uint8_t byExpToInt[] = {  1,   2,   4,   8,  16,  32,  64, 128,  29,  58, 116, 232, 205, 135,  19,  38,
 							 76, 152,  45,  90, 180, 117, 234, 201, 143,   3,   6,  12,  24,  48,  96, 192,
 							157,  39,  78, 156,  37,  74, 148,  53, 106, 212, 181, 119, 238, 193, 159,  35,
 							 70, 140,   5,  10,  20,  40,  80, 160,  93, 186, 105, 210, 185, 111, 222, 161,
@@ -482,7 +487,7 @@ static BYTE byExpToInt[] = {  1,   2,   4,   8,  16,  32,  64, 128,  29,  58, 11
 
 /////////////////////////////////////////////////////////////////////////////
 // GF(2^8)α整数→指数変換テーブル
-static BYTE byIntToExp[] = {  0,   0,   1,  25,   2,  50,  26, 198,   3, 223,  51, 238,  27, 104, 199,  75,
+static uint8_t byIntToExp[] = {  0,   0,   1,  25,   2,  50,  26, 198,   3, 223,  51, 238,  27, 104, 199,  75,
 							  4, 100, 224,  14,  52, 141, 239, 129,  28, 193, 105, 248, 200,   8,  76, 113,
 							  5, 138, 101,  47, 225,  36,  15,  33,  53, 147, 142, 218, 240,  18, 130,  69,
 							 29, 181, 194, 125, 106,  39, 249, 185, 201, 154,   9, 120,  77, 228, 114, 166,
@@ -502,82 +507,83 @@ static BYTE byIntToExp[] = {  0,   0,   1,  25,   2,  50,  26, 198,   3, 223,  5
 
 /////////////////////////////////////////////////////////////////////////////
 // 誤り訂正生成多項式α係数
-static BYTE byRSExp7[]  = {87, 229, 146, 149, 238, 102,  21};
-static BYTE byRSExp10[] = {251,  67,  46,  61, 118,  70,  64,  94,  32,  45};
-static BYTE byRSExp13[] = { 74, 152, 176, 100,  86, 100, 106, 104, 130, 218, 206, 140,  78};
-static BYTE byRSExp15[] = {  8, 183,  61,  91, 202,  37,  51,  58,  58, 237, 140, 124,   5,  99, 105};
-static BYTE byRSExp16[] = {120, 104, 107, 109, 102, 161,  76,   3,  91, 191, 147, 169, 182, 194, 225, 120};
-static BYTE byRSExp17[] = { 43, 139, 206,  78,  43, 239, 123, 206, 214, 147,  24,  99, 150,  39, 243, 163, 136};
-static BYTE byRSExp18[] = {215, 234, 158,  94, 184,  97, 118, 170,  79, 187, 152, 148, 252, 179,   5,  98,  96, 153};
-static BYTE byRSExp20[] = { 17,  60,  79,  50,  61, 163,  26, 187, 202, 180, 221, 225,  83, 239, 156, 164, 212, 212, 188, 190};
-static BYTE byRSExp22[] = {210, 171, 247, 242,  93, 230,  14, 109, 221,  53, 200,  74,   8, 172,  98,  80, 219, 134, 160, 105,
+static uint8_t byRSExp7[]  = {87, 229, 146, 149, 238, 102,  21};
+static uint8_t byRSExp10[] = {251,  67,  46,  61, 118,  70,  64,  94,  32,  45};
+static uint8_t byRSExp13[] = { 74, 152, 176, 100,  86, 100, 106, 104, 130, 218, 206, 140,  78};
+static uint8_t byRSExp15[] = {  8, 183,  61,  91, 202,  37,  51,  58,  58, 237, 140, 124,   5,  99, 105};
+static uint8_t byRSExp16[] = {120, 104, 107, 109, 102, 161,  76,   3,  91, 191, 147, 169, 182, 194, 225, 120};
+static uint8_t byRSExp17[] = { 43, 139, 206,  78,  43, 239, 123, 206, 214, 147,  24,  99, 150,  39, 243, 163, 136};
+static uint8_t byRSExp18[] = {215, 234, 158,  94, 184,  97, 118, 170,  79, 187, 152, 148, 252, 179,   5,  98,  96, 153};
+static uint8_t byRSExp20[] = { 17,  60,  79,  50,  61, 163,  26, 187, 202, 180, 221, 225,  83, 239, 156, 164, 212, 212, 188, 190};
+static uint8_t byRSExp22[] = {210, 171, 247, 242,  93, 230,  14, 109, 221,  53, 200,  74,   8, 172,  98,  80, 219, 134, 160, 105,
 						   165, 231};
-static BYTE byRSExp24[] = {229, 121, 135,  48, 211, 117, 251, 126, 159, 180, 169, 152, 192, 226, 228, 218, 111,   0, 117, 232,
+static uint8_t byRSExp24[] = {229, 121, 135,  48, 211, 117, 251, 126, 159, 180, 169, 152, 192, 226, 228, 218, 111,   0, 117, 232,
 						    87,  96, 227,  21};
-static BYTE byRSExp26[] = {173, 125, 158,   2, 103, 182, 118,  17, 145, 201, 111,  28, 165,  53, 161,  21, 245, 142,  13, 102,
+static uint8_t byRSExp26[] = {173, 125, 158,   2, 103, 182, 118,  17, 145, 201, 111,  28, 165,  53, 161,  21, 245, 142,  13, 102,
 						    48, 227, 153, 145, 218,  70};
-static BYTE byRSExp28[] = {168, 223, 200, 104, 224, 234, 108, 180, 110, 190, 195, 147, 205,  27, 232, 201,  21,  43, 245,  87,
+static uint8_t byRSExp28[] = {168, 223, 200, 104, 224, 234, 108, 180, 110, 190, 195, 147, 205,  27, 232, 201,  21,  43, 245,  87,
 						    42, 195, 212, 119, 242,  37,   9, 123};
-static BYTE byRSExp30[] = { 41, 173, 145, 152, 216,  31, 179, 182,  50,  48, 110,  86, 239,  96, 222, 125,  42, 173, 226, 193,
+static uint8_t byRSExp30[] = { 41, 173, 145, 152, 216,  31, 179, 182,  50,  48, 110,  86, 239,  96, 222, 125,  42, 173, 226, 193,
 						   224, 130, 156,  37, 251, 216, 238,  40, 192, 180};
-static BYTE byRSExp32[] = { 10,   6, 106, 190, 249, 167,   4,  67, 209, 138, 138,  32, 242, 123,  89,  27, 120, 185,  80, 156,
+static uint8_t byRSExp32[] = { 10,   6, 106, 190, 249, 167,   4,  67, 209, 138, 138,  32, 242, 123,  89,  27, 120, 185,  80, 156,
 						    38,  69, 171,  60,  28, 222,  80,  52, 254, 185, 220, 241};
-static BYTE byRSExp34[] = {111,  77, 146,  94,  26,  21, 108,  19, 105,  94, 113, 193,  86, 140, 163, 125,  58, 158, 229, 239,
+static uint8_t byRSExp34[] = {111,  77, 146,  94,  26,  21, 108,  19, 105,  94, 113, 193,  86, 140, 163, 125,  58, 158, 229, 239,
 						   218, 103,  56,  70, 114,  61, 183, 129, 167,  13,  98,  62, 129,  51};
-static BYTE byRSExp36[] = {200, 183,  98,  16, 172,  31, 246, 234,  60, 152, 115,   0, 167, 152, 113, 248, 238, 107,  18,  63,
+static uint8_t byRSExp36[] = {200, 183,  98,  16, 172,  31, 246, 234,  60, 152, 115,   0, 167, 152, 113, 248, 238, 107,  18,  63,
 						   218,  37,  87, 210, 105, 177, 120,  74, 121, 196, 117, 251, 113, 233,  30, 120};
-static BYTE byRSExp38[] = {159,  34,  38, 228, 230,  59, 243,  95,  49, 218, 176, 164,  20,  65,  45, 111,  39,  81,  49, 118,
+static uint8_t byRSExp38[] = {159,  34,  38, 228, 230,  59, 243,  95,  49, 218, 176, 164,  20,  65,  45, 111,  39,  81,  49, 118,
 						   113, 222, 193, 250, 242, 168, 217,  41, 164, 247, 177,  30, 238,  18, 120, 153,  60, 193};
-static BYTE byRSExp40[] = { 59, 116,  79, 161, 252,  98, 128, 205, 128, 161, 247,  57, 163,  56, 235, 106,  53,  26, 187, 174,
+static uint8_t byRSExp40[] = { 59, 116,  79, 161, 252,  98, 128, 205, 128, 161, 247,  57, 163,  56, 235, 106,  53,  26, 187, 174,
 						   226, 104, 170,   7, 175,  35, 181, 114,  88,  41,  47, 163, 125, 134,  72,  20, 232,  53,  35,  15};
-static BYTE byRSExp42[] = {250, 103, 221, 230,  25,  18, 137, 231,   0,   3,  58, 242, 221, 191, 110,  84, 230,   8, 188, 106,
+static uint8_t byRSExp42[] = {250, 103, 221, 230,  25,  18, 137, 231,   0,   3,  58, 242, 221, 191, 110,  84, 230,   8, 188, 106,
 						    96, 147,  15, 131, 139,  34, 101, 223,  39, 101, 213, 199, 237, 254, 201, 123, 171, 162, 194, 117,
 						    50,  96};
-static BYTE byRSExp44[] = {190,   7,  61, 121,  71, 246,  69,  55, 168, 188,  89, 243, 191,  25,  72, 123,   9, 145,  14, 247,
+static uint8_t byRSExp44[] = {190,   7,  61, 121,  71, 246,  69,  55, 168, 188,  89, 243, 191,  25,  72, 123,   9, 145,  14, 247,
 						     1, 238,  44,  78, 143,  62, 224, 126, 118, 114,  68, 163,  52, 194, 217, 147, 204, 169,  37, 130,
 						   113, 102,  73, 181};
-static BYTE byRSExp46[] = {112,  94,  88, 112, 253, 224, 202, 115, 187,  99,  89,   5,  54, 113, 129,  44,  58,  16, 135, 216,
+static uint8_t byRSExp46[] = {112,  94,  88, 112, 253, 224, 202, 115, 187,  99,  89,   5,  54, 113, 129,  44,  58,  16, 135, 216,
 						   169, 211,  36,   1,   4,  96,  60, 241,  73, 104, 234,   8, 249, 245, 119, 174,  52,  25, 157, 224,
 						    43, 202, 223,  19,  82,  15};
-static BYTE byRSExp48[] = {228,  25, 196, 130, 211, 146,  60,  24, 251,  90,  39, 102, 240,  61, 178,  63,  46, 123, 115,  18,
+static uint8_t byRSExp48[] = {228,  25, 196, 130, 211, 146,  60,  24, 251,  90,  39, 102, 240,  61, 178,  63,  46, 123, 115,  18,
 						   221, 111, 135, 160, 182, 205, 107, 206,  95, 150, 120, 184,  91,  21, 247, 156, 140, 238, 191,  11,
 						    94, 227,  84,  50, 163,  39,  34, 108};
-static BYTE byRSExp50[] = {232, 125, 157, 161, 164,   9, 118,  46, 209,  99, 203, 193,  35,   3, 209, 111, 195, 242, 203, 225,
+static uint8_t byRSExp50[] = {232, 125, 157, 161, 164,   9, 118,  46, 209,  99, 203, 193,  35,   3, 209, 111, 195, 242, 203, 225,
 						    46,  13,  32, 160, 126, 209, 130, 160, 242, 215, 242,  75,  77,  42, 189,  32, 113,  65, 124,  69,
 						   228, 114, 235, 175, 124, 170, 215, 232, 133, 205};
-static BYTE byRSExp52[] = {116,  50,  86, 186,  50, 220, 251,  89, 192,  46,  86, 127, 124,  19, 184, 233, 151, 215,  22,  14,
+static uint8_t byRSExp52[] = {116,  50,  86, 186,  50, 220, 251,  89, 192,  46,  86, 127, 124,  19, 184, 233, 151, 215,  22,  14,
 						    59, 145,  37, 242, 203, 134, 254,  89, 190,  94,  59,  65, 124, 113, 100, 233, 235, 121,  22,  76,
 						    86,  97,  39, 242, 200, 220, 101,  33, 239, 254, 116,  51};
-static BYTE byRSExp54[] = {183,  26, 201,  87, 210, 221, 113,  21,  46,  65,  45,  50, 238, 184, 249, 225, 102,  58, 209, 218,
+static uint8_t byRSExp54[] = {183,  26, 201,  87, 210, 221, 113,  21,  46,  65,  45,  50, 238, 184, 249, 225, 102,  58, 209, 218,
 						   109, 165,  26,  95, 184, 192,  52, 245,  35, 254, 238, 175, 172,  79, 123,  25, 122,  43, 120, 108,
 						   215,  80, 128, 201, 235,   8, 153,  59, 101,  31, 198,  76,  31, 156};
-static BYTE byRSExp56[] = {106, 120, 107, 157, 164, 216, 112, 116,   2,  91, 248, 163,  36, 201, 202, 229,   6, 144, 254, 155,
+static uint8_t byRSExp56[] = {106, 120, 107, 157, 164, 216, 112, 116,   2,  91, 248, 163,  36, 201, 202, 229,   6, 144, 254, 155,
 						   135, 208, 170, 209,  12, 139, 127, 142, 182, 249, 177, 174, 190,  28,  10,  85, 239, 184, 101, 124,
 						   152, 206,  96,  23, 163,  61,  27, 196, 247, 151, 154, 202, 207,  20,  61,  10};
-static BYTE byRSExp58[] = { 82, 116,  26, 247,  66,  27,  62, 107, 252, 182, 200, 185, 235,  55, 251, 242, 210, 144, 154, 237,
+static uint8_t byRSExp58[] = { 82, 116,  26, 247,  66,  27,  62, 107, 252, 182, 200, 185, 235,  55, 251, 242, 210, 144, 154, 237,
 						   176, 141, 192, 248, 152, 249, 206,  85, 253, 142,  65, 165, 125,  23,  24,  30, 122, 240, 214,   6,
 						   129, 218,  29, 145, 127, 134, 206, 245, 117,  29,  41,  63, 159, 142, 233, 125, 148, 123};
-static BYTE byRSExp60[] = {107, 140,  26,  12,   9, 141, 243, 197, 226, 197, 219,  45, 211, 101, 219, 120,  28, 181, 127,   6,
+static uint8_t byRSExp60[] = {107, 140,  26,  12,   9, 141, 243, 197, 226, 197, 219,  45, 211, 101, 219, 120,  28, 181, 127,   6,
 						   100, 247,   2, 205, 198,  57, 115, 219, 101, 109, 160,  82,  37,  38, 238,  49, 160, 209, 121,  86,
 						    11, 124,  30, 181,  84,  25, 194,  87,  65, 102, 190, 220,  70,  27, 209,  16,  89,   7,  33, 240};
-static BYTE byRSExp62[] = { 65, 202, 113,  98,  71, 223, 248, 118, 214,  94,   0, 122,  37,  23,   2, 228,  58, 121,   7, 105,
+static uint8_t byRSExp62[] = { 65, 202, 113,  98,  71, 223, 248, 118, 214,  94,   0, 122,  37,  23,   2, 228,  58, 121,   7, 105,
 						   135,  78, 243, 118,  70,  76, 223,  89,  72,  50,  70, 111, 194,  17, 212, 126, 181,  35, 221, 117,
 						   235,  11, 229, 149, 147, 123, 213,  40, 115,   6, 200, 100,  26, 246, 182, 218, 127, 215,  36, 186,
 						   110, 106};
-static BYTE byRSExp64[] = { 45,  51, 175,   9,   7, 158, 159,  49,  68, 119,  92, 123, 177, 204, 187, 254, 200,  78, 141, 149,
+static uint8_t byRSExp64[] = { 45,  51, 175,   9,   7, 158, 159,  49,  68, 119,  92, 123, 177, 204, 187, 254, 200,  78, 141, 149,
 						   119,  26, 127,  53, 160,  93, 199, 212,  29,  24, 145, 156, 208, 150, 218, 209,   4, 216,  91,  47,
 						   184, 146,  47, 140, 195, 195, 125, 242, 238,  63,  99, 108, 140, 230, 242,  31, 204,  11, 178, 243,
 						   217, 156, 213, 231};
-static BYTE byRSExp66[] = {  5, 118, 222, 180, 136, 136, 162,  51,  46, 117,  13, 215,  81,  17, 139, 247, 197, 171,  95, 173,
+static uint8_t byRSExp66[] = {  5, 118, 222, 180, 136, 136, 162,  51,  46, 117,  13, 215,  81,  17, 139, 247, 197, 171,  95, 173,
 						    65, 137, 178,  68, 111,  95, 101,  41,  72, 214, 169, 197,  95,   7,  44, 154,  77, 111, 236,  40,
 						   121, 143,  63,  87,  80, 253, 240, 126, 217,  77,  34, 232, 106,  50, 168,  82,  76, 146,  67, 106,
 						   171,  25, 132,  93,  45, 105};
-static BYTE byRSExp68[] = {247, 159, 223,  33, 224,  93,  77,  70,  90, 160,  32, 254,  43, 150,  84, 101, 190, 205, 133,  52,
+static uint8_t byRSExp68[] = {247, 159, 223,  33, 224,  93,  77,  70,  90, 160,  32, 254,  43, 150,  84, 101, 190, 205, 133,  52,
 						    60, 202, 165, 220, 203, 151,  93,  84,  15,  84, 253, 173, 160,  89, 227,  52, 199,  97,  95, 231,
 						    52, 177,  41, 125, 137, 241, 166, 225, 118,   2,  54,  32,  82, 215, 175, 198,  43, 238, 235,  27,
 						   101, 184, 127,   3,   5,   8, 163, 238};
 
-static LPBYTE  byRSExp[] = {NULL,      NULL,      NULL,      NULL,      NULL,      NULL,      NULL,      byRSExp7,  NULL,      NULL,
+static uint8_t* 
+							byRSExp[] = {NULL,      NULL,      NULL,      NULL,      NULL,      NULL,      NULL,      byRSExp7,  NULL,      NULL,
 							byRSExp10, NULL,      NULL,      byRSExp13, NULL,      byRSExp15, byRSExp16, byRSExp17, byRSExp18, NULL,
 							byRSExp20, NULL,      byRSExp22, NULL,      byRSExp24, NULL,      byRSExp26, NULL,      byRSExp28, NULL,
 							byRSExp30, NULL,      byRSExp32, NULL,      byRSExp34, NULL,      byRSExp36, NULL,      byRSExp38, NULL,
@@ -599,7 +605,7 @@ CQR_Encode::CQR_Encode()
 {
 }
 
-CQR_Encode::‾CQR_Encode()
+CQR_Encode::~CQR_Encode()
 {
 }
 
@@ -608,9 +614,9 @@ CQR_Encode::‾CQR_Encode()
 // CQR_Encode::EncodeData
 // 用  途：データエンコード
 // 引  数：誤り訂正レベル、型番(0=自動)、型番自動拡張フラグ、マスキング番号(-1=自動)、エンコードデータ、エンコードデータ長
-// 戻り値：エンコード成功時=TRUE、データなし、または容量オーバー時=FALSE
+// 戻り値：エンコード成功時=true、データなし、または容量オーバー時=false
 
-bool CQR_Encode::EncodeData(int nLevel, int nVersion, bool bAutoExtent, int nMaskingNo, LPCSTR lpsSource, int ncSource)
+bool CQR_Encode::EncodeData(int nLevel, int nVersion, bool bAutoExtent, int nMaskingNo, const uint8_t * lpsSource, int ncSource)
 {
 	int i, j;
 
@@ -618,16 +624,16 @@ bool CQR_Encode::EncodeData(int nLevel, int nVersion, bool bAutoExtent, int nMas
 	m_nMaskingNo = nMaskingNo;
 
 	// データ長が指定されていない場合は lstrlen によって取得
-	int ncLength = ncSource > 0 ? ncSource : lstrlen(lpsSource);
+	int ncLength = ncSource > 0 ? ncSource : strlen((char *) lpsSource);
 
 	if (ncLength == 0)
-		return FALSE; // データなし
+		return false; // データなし
 
 	// バージョン(型番)チェック
 	int nEncodeVersion = GetEncodeVersion(nVersion, lpsSource, ncLength);
 
 	if (nEncodeVersion == 0)
-		return FALSE; // 容量オーバー
+		return false; // 容量オーバー
 
 	if (nVersion == 0)
 	{
@@ -645,31 +651,31 @@ bool CQR_Encode::EncodeData(int nLevel, int nVersion, bool bAutoExtent, int nMas
 			if (bAutoExtent)
 				m_nVersion = nEncodeVersion; // バージョン(型番)自動拡張
 			else
-				return FALSE; // 容量オーバー
+				return false; // 容量オーバー
 		}
 	}
 
 	// ターミネータコード"0000"付加
 	int ncDataCodeWord = QR_VersionInfo[m_nVersion].ncDataCodeWord[nLevel];
 
-	int ncTerminater = min(4, (ncDataCodeWord * 8) - m_ncDataCodeWordBit);
+	int ncTerminater = std::min(4, (ncDataCodeWord * 8) - m_ncDataCodeWordBit);
 
 	if (ncTerminater > 0)
 		m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, 0, ncTerminater);
 
 	// パディングコード"11101100, 00010001"付加
-	BYTE byPaddingCode = 0xec;
+	uint8_t byPaddingCode = 0xec;
 
 	for (i = (m_ncDataCodeWordBit + 7) / 8; i < ncDataCodeWord; ++i)
 	{
 		m_byDataCodeWord[i] = byPaddingCode;
 
-		byPaddingCode = (BYTE)(byPaddingCode == 0xec ? 0x11 : 0xec);
+		byPaddingCode = (uint8_t)(byPaddingCode == 0xec ? 0x11 : 0xec);
 	}
 
 	// 総コードワード算出エリアクリア
 	m_ncAllCodeWord = QR_VersionInfo[m_nVersion].ncAllCodeWord;
-	ZeroMemory(m_byAllCodeWord, m_ncAllCodeWord);
+  memset(m_byAllCodeWord,0,m_ncAllCodeWord);
 
 	int nDataCwIndex = 0; // データコードワード処理位置
 
@@ -725,7 +731,7 @@ bool CQR_Encode::EncodeData(int nLevel, int nVersion, bool bAutoExtent, int nMas
 
 	for (i = 0; i < ncBlock1; ++i)
 	{
-		ZeroMemory(m_byRSWork, sizeof(m_byRSWork));
+		memset(m_byRSWork,0,sizeof(m_byRSWork));
 
 		memmove(m_byRSWork, m_byDataCodeWord + nDataCwIndex, ncDataCw1);
 
@@ -743,7 +749,7 @@ bool CQR_Encode::EncodeData(int nLevel, int nVersion, bool bAutoExtent, int nMas
 
 	for (i = 0; i < ncBlock2; ++i)
 	{
-		ZeroMemory(m_byRSWork, sizeof(m_byRSWork));
+		memset(m_byRSWork,0,sizeof(m_byRSWork));
 
 		memmove(m_byRSWork, m_byDataCodeWord + nDataCwIndex, ncDataCw2);
 
@@ -764,7 +770,7 @@ bool CQR_Encode::EncodeData(int nLevel, int nVersion, bool bAutoExtent, int nMas
 	// モジュール配置
 	FormatModule();
 
-	return TRUE;
+	return true;
 }
 
 
@@ -774,7 +780,7 @@ bool CQR_Encode::EncodeData(int nLevel, int nVersion, bool bAutoExtent, int nMas
 // 引  数：調査開始バージョン、エンコードデータ、エンコードデータ長
 // 戻り値：バージョン番号（容量オーバー時=0）
 
-int CQR_Encode::GetEncodeVersion(int nVersion, LPCSTR lpsSource, int ncLength)
+int CQR_Encode::GetEncodeVersion(int nVersion, const uint8_t* lpsSource, int ncLength)
 {
 	int nVerGroup = nVersion >= 27 ? QR_VRESION_L : (nVersion >= 10 ? QR_VRESION_M : QR_VRESION_S);
 	int i, j;
@@ -818,18 +824,18 @@ int CQR_Encode::GetEncodeVersion(int nVersion, LPCSTR lpsSource, int ncLength)
 // CQR_Encode::EncodeSourceData
 // 用  途：入力データエンコード
 // 引  数：入力データ、入力データ長、バージョン(型番)グループ
-// 戻り値：エンコード成功時=TRUE
+// 戻り値：エンコード成功時=true
 
-bool CQR_Encode::EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup)
+bool CQR_Encode::EncodeSourceData(const uint8_t* lpsSource, int ncLength, int nVerGroup)
 {
-	ZeroMemory(m_nBlockLength, sizeof(m_nBlockLength));
+	memset(m_nBlockLength,0,sizeof(m_nBlockLength));
 
 	int i, j;
 
 	// どのモードが何文字(バイト)継続しているかを調査
 	for (m_ncDataBlock = i = 0; i < ncLength; ++i)
 	{
-		BYTE byMode;
+		uint8_t byMode;
 
 		if (i < ncLength - 1 && IsKanjiData(lpsSource[i], lpsSource[i + 1]))
 			byMode = QR_MODE_KANJI;
@@ -1078,11 +1084,11 @@ bool CQR_Encode::EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup)
 	/////////////////////////////////////////////////////////////////////////
 	// ビット配列化
 	int ncComplete = 0; // 処理済データカウンタ
-	WORD wBinCode;
+	uint16_t wBinCode;
 
 	m_ncDataCodeWordBit = 0; // ビット単位処理カウンタ
 
-	ZeroMemory(m_byDataCodeWord, MAX_DATACODEWORD);
+	memset(m_byDataCodeWord,0,MAX_DATACODEuint16_t);
 
 	for (i = 0; i < m_ncDataBlock && m_ncDataCodeWordBit != -1; ++i)
 	{
@@ -1095,14 +1101,14 @@ bool CQR_Encode::EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup)
 			m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, 1, 4); 
 
 			// 文字数セット
-			m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, (WORD)m_nBlockLength[i], nIndicatorLenNumeral[nVerGroup]);
+			m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, (uint16_t)m_nBlockLength[i], nIndicatorLenNumeral[nVerGroup]);
 
 			// ビット列保存
 			for (j = 0; j < m_nBlockLength[i]; j += 3)
 			{
 				if (j < m_nBlockLength[i] - 2)
 				{
-					wBinCode = (WORD)(((lpsSource[ncComplete + j]	  - '0') * 100) +
+					wBinCode = (uint16_t)(((lpsSource[ncComplete + j]	  - '0') * 100) +
 									  ((lpsSource[ncComplete + j + 1] - '0') * 10) +
 									   (lpsSource[ncComplete + j + 2] - '0'));
 
@@ -1111,7 +1117,7 @@ bool CQR_Encode::EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup)
 				else if (j == m_nBlockLength[i] - 2)
 				{
 					// 端数２バイト
-					wBinCode = (WORD)(((lpsSource[ncComplete + j] - '0') * 10) +
+					wBinCode = (uint16_t)(((lpsSource[ncComplete + j] - '0') * 10) +
 									   (lpsSource[ncComplete + j + 1] - '0'));
 
 					m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, wBinCode, 7);
@@ -1119,7 +1125,7 @@ bool CQR_Encode::EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup)
 				else if (j == m_nBlockLength[i] - 1)
 				{
 					// 端数１バイト
-					wBinCode = (WORD)(lpsSource[ncComplete + j] - '0');
+					wBinCode = (uint16_t)(lpsSource[ncComplete + j] - '0');
 
 					m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, wBinCode, 4);
 				}
@@ -1137,14 +1143,14 @@ bool CQR_Encode::EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup)
 			m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, 2, 4);
 
 			// 文字数セット
-			m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, (WORD)m_nBlockLength[i], nIndicatorLenAlphabet[nVerGroup]);
+			m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, (uint16_t)m_nBlockLength[i], nIndicatorLenAlphabet[nVerGroup]);
 
 			// ビット列保存
 			for (j = 0; j < m_nBlockLength[i]; j += 2)
 			{
 				if (j < m_nBlockLength[i] - 1)
 				{
-					wBinCode = (WORD)((AlphabetToBinary(lpsSource[ncComplete + j]) * 45) +
+					wBinCode = (uint16_t)((AlphabetToBinary(lpsSource[ncComplete + j]) * 45) +
 									   AlphabetToBinary(lpsSource[ncComplete + j + 1]));
 
 					m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, wBinCode, 11);
@@ -1152,7 +1158,7 @@ bool CQR_Encode::EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup)
 				else
 				{
 					// 端数１バイト
-					wBinCode = (WORD)AlphabetToBinary(lpsSource[ncComplete + j]);
+					wBinCode = (uint16_t)AlphabetToBinary(lpsSource[ncComplete + j]);
 
 					m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, wBinCode, 6);
 				}
@@ -1170,12 +1176,12 @@ bool CQR_Encode::EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup)
 			m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, 4, 4);
 
 			// 文字数セット
-			m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, (WORD)m_nBlockLength[i], nIndicatorLen8Bit[nVerGroup]);
+			m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, (uint16_t)m_nBlockLength[i], nIndicatorLen8Bit[nVerGroup]);
 
 			// ビット列保存
 			for (j = 0; j < m_nBlockLength[i]; ++j)
 			{
-				m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, (WORD)lpsSource[ncComplete + j], 8);
+				m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, (uint16_t)lpsSource[ncComplete + j], 8);
 			}
 
 			ncComplete += m_nBlockLength[i];
@@ -1189,12 +1195,12 @@ bool CQR_Encode::EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup)
 			m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, 8, 4);
 
 			// 文字数セット
-			m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, (WORD)(m_nBlockLength[i] / 2), nIndicatorLenKanji[nVerGroup]);
+			m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, (uint16_t)(m_nBlockLength[i] / 2), nIndicatorLenKanji[nVerGroup]);
 
 			// 漢字モードでビット列保存
 			for (j = 0; j < m_nBlockLength[i] / 2; ++j)
 			{
-				WORD wBinCode = KanjiToBinary((WORD)(((BYTE)lpsSource[ncComplete + (j * 2)] << 8) + (BYTE)lpsSource[ncComplete + (j * 2) + 1]));
+				uint16_t wBinCode = KanjiToBinary((uint16_t)(((uint8_t)lpsSource[ncComplete + (j * 2)] << 8) + (uint8_t)lpsSource[ncComplete + (j * 2) + 1]));
 
 				m_ncDataCodeWordBit = SetBitStream(m_ncDataCodeWordBit, wBinCode, 13);
 			}
@@ -1214,7 +1220,7 @@ bool CQR_Encode::EncodeSourceData(LPCSTR lpsSource, int ncLength, int nVerGroup)
 // 戻り値：データビット長
 // 備  考：漢字モードでのデータ長引数は文字数ではなくバイト数
 
-int CQR_Encode::GetBitLength(BYTE nMode, int ncData, int nVerGroup)
+int CQR_Encode::GetBitLength(uint8_t nMode, int ncData, int nVerGroup)
 {
 	int ncBits = 0;
 
@@ -1260,11 +1266,11 @@ int CQR_Encode::GetBitLength(BYTE nMode, int ncData, int nVerGroup)
 // 戻り値：次回挿入位置(バッファオーバー時=-1)
 // 備  考：m_byDataCodeWord に結果をセット(要ゼロ初期化)
 
-int CQR_Encode::SetBitStream(int nIndex, WORD wData, int ncData)
+int CQR_Encode::SetBitStream(int nIndex, uint16_t wData, int ncData)
 {
 	int i;
 
-	if (nIndex == -1 || nIndex + ncData > MAX_DATACODEWORD * 8)
+	if (nIndex == -1 || nIndex + ncData > MAX_DATACODEuint16_t * 8)
 		return -1;
 
 	for (i = 0; i < ncData; ++i)
@@ -1283,14 +1289,14 @@ int CQR_Encode::SetBitStream(int nIndex, WORD wData, int ncData)
 // CQR_Encode::IsNumeralData
 // 用  途：数字モード該当チェック
 // 引  数：調査文字
-// 戻り値：該当時=TRUE
+// 戻り値：該当時=true
 
 bool CQR_Encode::IsNumeralData(unsigned char c)
 {
 	if (c >= '0' && c <= '9')
-		return TRUE;
+		return true;
 
-	return FALSE;
+	return false;
 }
 
 
@@ -1298,20 +1304,20 @@ bool CQR_Encode::IsNumeralData(unsigned char c)
 // CQR_Encode::IsAlphabetData
 // 用  途：英数字モード該当チェック
 // 引  数：調査文字
-// 戻り値：該当時=TRUE
+// 戻り値：該当時=true
 
 bool CQR_Encode::IsAlphabetData(unsigned char c)
 {
 	if (c >= '0' && c <= '9')
-		return TRUE;
+		return true;
 
 	if (c >= 'A' && c <= 'Z')
-		return TRUE;
+		return true;
 
 	if (c == ' ' || c == '$' || c == '%' || c == '*' || c == '+' || c == '-' || c == '.' || c == '/' || c == ':')
-		return TRUE;
+		return true;
 
-	return FALSE;
+	return false;
 }
 
 
@@ -1319,7 +1325,7 @@ bool CQR_Encode::IsAlphabetData(unsigned char c)
 // CQR_Encode::IsKanjiData
 // 用  途：漢字モード該当チェック
 // 引  数：調査文字（16ビット文字）
-// 戻り値：該当時=TRUE
+// 戻り値：該当時=true
 // 備  考：EBBFh 以降の S-JIS は対象外
 
 bool CQR_Encode::IsKanjiData(unsigned char c1, unsigned char c2)
@@ -1327,12 +1333,12 @@ bool CQR_Encode::IsKanjiData(unsigned char c1, unsigned char c2)
 	if (((c1 >= 0x81 && c1 <= 0x9f) || (c1 >= 0xe0 && c1 <= 0xeb)) && (c2 >= 0x40))
 	{
 		if ((c1 == 0x9f && c2 > 0xfc) || (c1 == 0xeb && c2 > 0xbf))
-			return FALSE;
+			return false;
 
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -1342,7 +1348,7 @@ bool CQR_Encode::IsKanjiData(unsigned char c1, unsigned char c2)
 // 引  数：対象文字
 // 戻り値：バイナリ値
 
-BYTE CQR_Encode::AlphabetToBinary(unsigned char c)
+uint8_t CQR_Encode::AlphabetToBinary(unsigned char c)
 {
 	if (c >= '0' && c <= '9') return (unsigned char)(c - '0');
 
@@ -1374,14 +1380,14 @@ BYTE CQR_Encode::AlphabetToBinary(unsigned char c)
 // 引  数：対象文字
 // 戻り値：バイナリ値
 
-WORD CQR_Encode::KanjiToBinary(WORD wc)
+uint16_t CQR_Encode::KanjiToBinary(uint16_t wc)
 {
 	if (wc >= 0x8140 && wc <= 0x9ffc)
 		wc -= 0x8140;
 	else // (wc >= 0xe040 && wc <= 0xebbf)
 		wc -= 0xc140;
 
-	return (WORD)(((wc >> 8) * 0xc0) + (wc & 0x00ff));
+	return (uint16_t)(((wc >> 8) * 0xc0) + (wc & 0x00ff));
 }
 
 
@@ -1391,7 +1397,7 @@ WORD CQR_Encode::KanjiToBinary(WORD wc)
 // 引  数：データコードワードアドレス、データコードワード長、ＲＳコードワード長
 // 備  考：総コードワード分のエリアを確保してから呼び出し
 
-void CQR_Encode::GetRSCodeWord(LPBYTE lpbyRSWork, int ncDataCodeWord, int ncRSCodeWord)
+void CQR_Encode::GetRSCodeWord(uint8_t *lpbyRSWork, int ncDataCodeWord, int ncRSCodeWord)
 {
 	int i, j;
 
@@ -1399,15 +1405,15 @@ void CQR_Encode::GetRSCodeWord(LPBYTE lpbyRSWork, int ncDataCodeWord, int ncRSCo
 	{
 		if (lpbyRSWork[0] != 0)
 		{
-			BYTE nExpFirst = byIntToExp[lpbyRSWork[0]]; // 初項係数より乗数算出
+			uint8_t nExpFirst = byIntToExp[lpbyRSWork[0]]; // 初項係数より乗数算出
 
 			for (j = 0; j < ncRSCodeWord; ++j)
 			{
 				// 各項乗数に初項乗数を加算（% 255 → α^255 = 1）
-				BYTE nExpElement = (BYTE)(((int)(byRSExp[ncRSCodeWord][j] + nExpFirst)) % 255);
+				uint8_t nExpElement = (uint8_t)(((int)(byRSExp[ncRSCodeWord][j] + nExpFirst)) % 255);
 
 				// 排他論理和による剰余算出
-				lpbyRSWork[j] = (BYTE)(lpbyRSWork[j + 1] ^ byExpToInt[nExpElement]);
+				lpbyRSWork[j] = (uint8_t)(lpbyRSWork[j + 1] ^ byExpToInt[nExpElement]);
 			}
 
 			// 残り桁をシフト
@@ -1433,7 +1439,7 @@ void CQR_Encode::FormatModule()
 {
 	int i, j;
 
-	ZeroMemory(m_byModuleData, sizeof(m_byModuleData));
+	memset(m_byModuleData,0,sizeof(m_byModuleData));
 
 	// 機能モジュール配置
 	SetFunctionModule();
@@ -1474,7 +1480,7 @@ void CQR_Encode::FormatModule()
 	{
 		for (j = 0; j < m_nSymbleSize; ++j)
 		{
-			m_byModuleData[i][j] = (BYTE)((m_byModuleData[i][j] & 0x11) != 0);
+			m_byModuleData[i][j] = (uint8_t)((m_byModuleData[i][j] & 0x11) != 0);
 		}
 	}
 }
@@ -1497,20 +1503,20 @@ void CQR_Encode::SetFunctionModule()
 	// 位置検出パターンセパレータ
 	for (i = 0; i < 8; ++i)
 	{
-		m_byModuleData[i][7] = m_byModuleData[7][i] = '¥x20';
-		m_byModuleData[m_nSymbleSize - 8][i] = m_byModuleData[m_nSymbleSize - 8 + i][7] = '¥x20';
-		m_byModuleData[i][m_nSymbleSize - 8] = m_byModuleData[7][m_nSymbleSize - 8 + i] = '¥x20';
+		m_byModuleData[i][7] = m_byModuleData[7][i] = '\x20';
+		m_byModuleData[m_nSymbleSize - 8][i] = m_byModuleData[m_nSymbleSize - 8 + i][7] = '\x20';
+		m_byModuleData[i][m_nSymbleSize - 8] = m_byModuleData[7][m_nSymbleSize - 8 + i] = '\x20';
 	}
 
 	// フォーマット情報記述位置を機能モジュール部として登録
 	for (i = 0; i < 9; ++i)
 	{
-		m_byModuleData[i][8] = m_byModuleData[8][i] = '¥x20';
+		m_byModuleData[i][8] = m_byModuleData[8][i] = '\x20';
 	}
 
 	for (i = 0; i < 8; ++i)
 	{
-		m_byModuleData[m_nSymbleSize - 8 + i][8] = m_byModuleData[8][m_nSymbleSize - 8 + i] = '¥x20';
+		m_byModuleData[m_nSymbleSize - 8 + i][8] = m_byModuleData[8][m_nSymbleSize - 8 + i] = '\x20';
 	}
 
 	// バージョン情報パターン
@@ -1531,8 +1537,8 @@ void CQR_Encode::SetFunctionModule()
 	// タイミングパターン
 	for (i = 8; i <= m_nSymbleSize - 9; ++i)
 	{
-		m_byModuleData[i][6] = (i % 2) == 0 ? '¥x30' : '¥x20';
-		m_byModuleData[6][i] = (i % 2) == 0 ? '¥x30' : '¥x20';
+		m_byModuleData[i][6] = (i % 2) == 0 ? '\x30' : '\x20';
+		m_byModuleData[6][i] = (i % 2) == 0 ? '\x30' : '\x20';
 	}
 }
 
@@ -1544,7 +1550,7 @@ void CQR_Encode::SetFunctionModule()
 
 void CQR_Encode::SetFinderPattern(int x, int y)
 {
-	static BYTE byPattern[] = {0x7f,  // 1111111b
+	static uint8_t byPattern[] = {0x7f,  // 1111111b
 							   0x41,  // 1000001b
 							   0x5d,  // 1011101b
 							   0x5d,  // 1011101b
@@ -1557,7 +1563,7 @@ void CQR_Encode::SetFinderPattern(int x, int y)
 	{
 		for (j = 0; j < 7; ++j)
 		{
-			m_byModuleData[x + j][y + i] = (byPattern[i] & (1 << (6 - j))) ? '¥x30' : '¥x20'; 
+			m_byModuleData[x + j][y + i] = (byPattern[i] & (1 << (6 - j))) ? '\x30' : '\x20'; 
 		}
 	}
 }
@@ -1570,7 +1576,7 @@ void CQR_Encode::SetFinderPattern(int x, int y)
 
 void CQR_Encode::SetAlignmentPattern(int x, int y)
 {
-	static BYTE byPattern[] = {0x1f,  // 11111b
+	static uint8_t byPattern[] = {0x1f,  // 11111b
 							   0x11,  // 10001b
 							   0x15,  // 10101b
 							   0x11,  // 10001b
@@ -1586,7 +1592,7 @@ void CQR_Encode::SetAlignmentPattern(int x, int y)
 	{
 		for (j = 0; j < 5; ++j)
 		{
-			m_byModuleData[x + j][y + i] = (byPattern[i] & (1 << (4 - j))) ? '¥x30' : '¥x20'; 
+			m_byModuleData[x + j][y + i] = (byPattern[i] & (1 << (4 - j))) ? '\x30' : '\x20'; 
 		}
 	}
 }
@@ -1622,7 +1628,7 @@ void CQR_Encode::SetVersionPattern()
 		for (j = 0; j < 3; ++j)
 		{
 			m_byModuleData[m_nSymbleSize - 11 + j][i] = m_byModuleData[i][m_nSymbleSize - 11 + j] =
-			(nVerData & (1 << (i * 3 + j))) ? '¥x30' : '¥x20';
+			(nVerData & (1 << (i * 3 + j))) ? '\x30' : '\x20';
 		}
 	}
 }
@@ -1669,7 +1675,7 @@ void CQR_Encode::SetCodeWordPattern()
 			}
 			while (m_byModuleData[x][y] & 0x20); // 機能モジュールを除外
 
-			m_byModuleData[x][y] = (m_byAllCodeWord[i] & (1 << (7 - j))) ? '¥x02' : '¥x00';
+			m_byModuleData[x][y] = (m_byAllCodeWord[i] & (1 << (7 - j))) ? '\x02' : '\x00';
 		}
 	}
 }
@@ -1727,7 +1733,7 @@ void CQR_Encode::SetMaskingPattern(int nPatternNo)
 					break;
 				}
 
-				m_byModuleData[j][i] = (BYTE)((m_byModuleData[j][i] & 0xfe) | (((m_byModuleData[j][i] & 0x02) > 1) ^ bMask));
+				m_byModuleData[j][i] = (uint8_t)((m_byModuleData[j][i] & 0xfe) | (((m_byModuleData[j][i] & 0x02) > 1) ^ bMask));
 			}
 		}
 	}
@@ -1783,24 +1789,24 @@ void CQR_Encode::SetFormatInfoPattern(int nPatternNo)
 
 	// 左上位置検出パターン周り配置
 	for (i = 0; i <= 5; ++i)
-		m_byModuleData[8][i] = (nFormatData & (1 << i)) ? '¥x30' : '¥x20';
+		m_byModuleData[8][i] = (nFormatData & (1 << i)) ? '\x30' : '\x20';
 
-	m_byModuleData[8][7] = (nFormatData & (1 << 6)) ? '¥x30' : '¥x20';
-	m_byModuleData[8][8] = (nFormatData & (1 << 7)) ? '¥x30' : '¥x20';
-	m_byModuleData[7][8] = (nFormatData & (1 << 8)) ? '¥x30' : '¥x20';
+	m_byModuleData[8][7] = (nFormatData & (1 << 6)) ? '\x30' : '\x20';
+	m_byModuleData[8][8] = (nFormatData & (1 << 7)) ? '\x30' : '\x20';
+	m_byModuleData[7][8] = (nFormatData & (1 << 8)) ? '\x30' : '\x20';
 
 	for (i = 9; i <= 14; ++i)
-		m_byModuleData[14 - i][8] = (nFormatData & (1 << i)) ? '¥x30' : '¥x20';
+		m_byModuleData[14 - i][8] = (nFormatData & (1 << i)) ? '\x30' : '\x20';
 
 	// 右上位置検出パターン下配置
 	for (i = 0; i <= 7; ++i)
-		m_byModuleData[m_nSymbleSize - 1 - i][8] = (nFormatData & (1 << i)) ? '¥x30' : '¥x20';
+		m_byModuleData[m_nSymbleSize - 1 - i][8] = (nFormatData & (1 << i)) ? '\x30' : '\x20';
 
 	// 左下位置検出パターン右配置
-	m_byModuleData[8][m_nSymbleSize - 8] = '¥x30'; // 固定暗モジュール
+	m_byModuleData[8][m_nSymbleSize - 8] = '\x30'; // 固定暗モジュール
 
 	for (i = 8; i <= 14; ++i)
-		m_byModuleData[8][m_nSymbleSize - 15 + i] = (nFormatData & (1 << i)) ? '¥x30' : '¥x20';
+		m_byModuleData[8][m_nSymbleSize - 15 + i] = (nFormatData & (1 << i)) ? '\x30' : '\x20';
 }
 
 
