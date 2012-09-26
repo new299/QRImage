@@ -1,4 +1,4 @@
-// stdafx.cpp : 標準インクルードファイルを含むソースファイル
+// stdafx.cpp : 讓呎ｺ悶う繝ｳ繧ｯ繝ｫ繝ｼ繝峨ヵ繧｡繧､繝ｫ繧貞性繧繧ｽ繝ｼ繧ｹ繝輔ぃ繧､繝ｫ
 // Date 2006/05/17	Ver. 1.22	Psytec Inc.
 
 #include "stdafx.h"

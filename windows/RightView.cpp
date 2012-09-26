@@ -1,4 +1,4 @@
-// RightView.cpp : CRightView ƒNƒ‰ƒX ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹
+// RightView.cpp : CRightView ã‚¯ãƒ©ã‚¹ ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«
 // Date 2006/05/17	Ver. 1.22	Psytec Inc.
 
 #include "stdafx.h"
@@ -28,7 +28,7 @@ CRightView::CRightView()
 	m_bInitControl = FALSE;
 }
 
-CRightView::~CRightView()
+CRightView::â€¾CRightView()
 {
 }
 
@@ -75,7 +75,7 @@ END_MESSAGE_MAP()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CRightView f’f
+// CRightView è¨ºæ–­
 
 #ifdef _DEBUG
 void CRightView::AssertValid() const
@@ -91,7 +91,7 @@ void CRightView::Dump(CDumpContext& dc) const
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CRightView ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// CRightView ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 void CRightView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
@@ -120,7 +120,7 @@ void CRightView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ƒƒjƒ…[€–ÚXV
+// ãƒ¡ãƒ‹ãƒ¥ãƒ¼é …ç›®æ›´æ–°
 
 void CRightView::OnUpdateEditUndo(CCmdUI* pCmdUI) 
 {
@@ -189,7 +189,7 @@ void CRightView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ƒƒjƒ…[Às
+// ãƒ¡ãƒ‹ãƒ¥ãƒ¼å®Ÿè¡Œ
 
 void CRightView::OnEditUndo() {m_editModuleSize.Undo();}
 void CRightView::OnEditCut() {m_editModuleSize.Cut();}
@@ -199,7 +199,7 @@ void CRightView::OnEditSelectAll() {m_editModuleSize.SetSel(0, -1);}
 
 
 /////////////////////////////////////////////////////////////////////////////
-// “ü—ÍXVŒãˆ—
+// å…¥åŠ›æ›´æ–°å¾Œå‡¦ç†
 
 void CRightView::OnSelChangeLevel() 
 {
@@ -258,7 +258,7 @@ void CRightView::OnKillFocusDrawSize()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ƒRƒ}ƒ“ƒhƒ{ƒ^ƒ“ˆ—
+// ã‚³ãƒãƒ³ãƒ‰ãƒœã‚¿ãƒ³å‡¦ç†
 
 void CRightView::OnCopy() 
 {
@@ -268,7 +268,7 @@ void CRightView::OnCopy()
 void CRightView::OnSave() 
 {
 	if (((CMainFrame*)(AfxGetApp()->m_pMainWnd))->m_strSavePath.IsEmpty())
-		((CMainFrame*)(AfxGetApp()->m_pMainWnd))->SaveAsImage(); // –¼‘O‚ğ•t‚¯‚Ä•Û‘¶
+		((CMainFrame*)(AfxGetApp()->m_pMainWnd))->SaveAsImage(); // åå‰ã‚’ä»˜ã‘ã¦ä¿å­˜
 	else
-		((CMainFrame*)(AfxGetApp()->m_pMainWnd))->SaveImage(); // ã‘‚«•Û‘¶
+		((CMainFrame*)(AfxGetApp()->m_pMainWnd))->SaveImage(); // ä¸Šæ›¸ãä¿å­˜
 }

@@ -1,4 +1,4 @@
-// BottomView.cpp : CBottomView ƒNƒ‰ƒX ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹
+// BottomView.cpp : CBottomView ã‚¯ãƒ©ã‚¹ ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«
 // Date 2006/05/17	Ver. 1.22	Psytec Inc.
 
 #include "stdafx.h"
@@ -26,7 +26,7 @@ CBottomView::CBottomView()
 	m_bInitControl = FALSE;
 }
 
-CBottomView::~CBottomView()
+CBottomView::â€¾CBottomView()
 {
 }
 
@@ -55,7 +55,7 @@ BEGIN_MESSAGE_MAP(CBottomView, CFormView)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CBottomView f’f
+// CBottomView è¨ºæ–­
 
 #ifdef _DEBUG
 void CBottomView::AssertValid() const
@@ -71,7 +71,7 @@ void CBottomView::Dump(CDumpContext& dc) const
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CBottomView ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// CBottomView ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 void CBottomView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
 {
@@ -83,7 +83,7 @@ void CBottomView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// ƒƒjƒ…[€–ÚXV
+// ãƒ¡ãƒ‹ãƒ¥ãƒ¼é …ç›®æ›´æ–°
 
 void CBottomView::OnUpdateEditUndo(CCmdUI* pCmdUI)
 {
@@ -115,7 +115,7 @@ void CBottomView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ƒƒjƒ…[Às
+// ãƒ¡ãƒ‹ãƒ¥ãƒ¼å®Ÿè¡Œ
 
 void CBottomView::OnEditUndo() {m_editSoureData.Undo();}
 void CBottomView::OnEditCut() {m_editSoureData.Cut();}
@@ -125,7 +125,7 @@ void CBottomView::OnEditSelectAll() {m_editSoureData.SetSel(0, -1);}
 
 
 /////////////////////////////////////////////////////////////////////////////
-// “ü—ÍXVŒãˆ—
+// å…¥åŠ›æ›´æ–°å¾Œå‡¦ç†
 
 void CBottomView::OnChangeSourceData()
 {

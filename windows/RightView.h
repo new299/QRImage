@@ -1,4 +1,4 @@
-// RightView.h : CRightView ƒNƒ‰ƒXéŒ¾‚¨‚æ‚ÑƒCƒ“ƒ^[ƒtƒFƒCƒX’è‹`
+// RightView.h : CRightView ã‚¯ãƒ©ã‚¹å®£è¨€ãŠã‚ˆã³ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹å®šç¾©
 // Date 2006/05/17	Ver. 1.22	Psytec Inc.
 
 #if !defined(AFX_RIGHTVIEW_H__F346E2CF_81BB_46DF_9F23_8351B7F80F49__INCLUDED_)
@@ -13,7 +13,7 @@
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// CRightView ƒNƒ‰ƒX
+// CRightView ã‚¯ãƒ©ã‚¹
 
 class CRightView : public CFormView
 {
@@ -21,7 +21,7 @@ protected:
 	CRightView();
 	DECLARE_DYNCREATE(CRightView)
 
-// ƒtƒH[ƒ€ ƒf[ƒ^
+// ãƒ•ã‚©ãƒ¼ãƒ  ãƒ‡ãƒ¼ã‚¿
 public:
 	//{{AFX_DATA(CRightView)
 	enum { IDD = IDD_RIGHTVIEW };
@@ -38,23 +38,23 @@ public:
 	CButton	m_buttonSave;
 	//}}AFX_DATA
 
-// ƒAƒgƒŠƒrƒ…[ƒg
+// ã‚¢ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ãƒˆ
 private:
 	BOOL m_bInitControl;
 
-// ƒIƒyƒŒ[ƒVƒ‡ƒ“
+// ã‚ªãƒšãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
 public:
 
-// ƒI[ƒo[ƒ‰ƒCƒh
+// ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
 	//{{AFX_VIRTUAL(CRightView)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV ƒTƒ|[ƒg
+	virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV ã‚µãƒãƒ¼ãƒˆ
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	//}}AFX_VIRTUAL
 
-// ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 protected:
-	virtual ~CRightView();
+	virtual â€¾CRightView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;

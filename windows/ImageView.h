@@ -1,4 +1,4 @@
-// ImageView.h : CImageView ƒNƒ‰ƒXéŒ¾‚¨‚æ‚ÑƒCƒ“ƒ^[ƒtƒFƒCƒX’è‹`
+// ImageView.h : CImageView ã‚¯ãƒ©ã‚¹å®£è¨€ãŠã‚ˆã³ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹å®šç¾©
 // Date 2006/05/17	Ver. 1.22	Psytec Inc.
 
 #if !defined(AFX_IMAGEVIEW_H__F393D9E2_40E7_4288_A236_61AB8812E193__INCLUDED_)
@@ -9,7 +9,7 @@
 #endif // _MSC_VER > 1000
 
 /////////////////////////////////////////////////////////////////////////////
-// CImageView ƒNƒ‰ƒX
+// CImageView ã‚¯ãƒ©ã‚¹
 
 class CImageView : public CView
 {
@@ -17,22 +17,22 @@ protected:
 	CImageView();
 	DECLARE_DYNCREATE(CImageView)
 
-// ƒAƒgƒŠƒrƒ…[ƒg
+// ã‚¢ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ãƒˆ
 public:
 
-// ƒIƒyƒŒ[ƒVƒ‡ƒ“
+// ã‚ªãƒšãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
 public:
 	COleDataSource m_OleDataSource;
 
-// ƒI[ƒo[ƒ‰ƒCƒh
+// ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
 	//{{AFX_VIRTUAL(CImageView)
 	protected:
 	virtual void OnDraw(CDC* pDC);
 	//}}AFX_VIRTUAL
 
-// ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 protected:
-	virtual ~CImageView();
+	virtual â€¾CImageView();
 
 #ifdef _DEBUG
 	virtual void AssertValid() const;

@@ -1,4 +1,4 @@
-// MainFrm.cpp : CMainFrame ƒNƒ‰ƒX‚Ì“®ì’è‹`
+// MainFrm.cpp : CMainFrame ã‚¯ãƒ©ã‚¹ã®å‹•ä½œå®šç¾©
 // Date 2006/05/17	Ver. 1.22	Psytec Inc.
 
 #include "stdafx.h"
@@ -48,7 +48,7 @@ static UINT indicators[] =
 };
 
 /////////////////////////////////////////////////////////////////////////////
-// CMainFrame ƒNƒ‰ƒX‚Ì\’z/Á–Å
+// CMainFrame ã‚¯ãƒ©ã‚¹ã®æ§‹ç¯‰/æ¶ˆæ»…
 
 CMainFrame::CMainFrame()
 {
@@ -60,7 +60,7 @@ CMainFrame::CMainFrame()
 	m_strSavePath.Empty();
 }
 
-CMainFrame::~CMainFrame()
+CMainFrame::â€¾CMainFrame()
 {
 	if (m_pSymbleDC != NULL)
 	{
@@ -84,21 +84,21 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
 		! m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
 	{
-		TRACE0("Failed to create toolbar\n");
+		TRACE0("Failed to create toolbarÂ¥n");
 		return -1;
 	}
 
 	if (! m_wndStatusBar.Create(this) ||
 		! m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT)))
 	{
-		TRACE0("Failed to create status bar\n");
+		TRACE0("Failed to create status barÂ¥n");
 		return -1;
 	}
 
-	// ƒXƒe[ƒ^ƒXƒo[ƒCƒ“ƒWƒP[ƒ^‚ª³‚µ‚­•\Ž¦‚³‚ê‚é‚æ‚¤æ“ªƒyƒCƒ“•‚ð•ÏX
+	// ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒãƒ¼ã‚¤ãƒ³ã‚¸ã‚±ãƒ¼ã‚¿ãŒæ­£ã—ãè¡¨ç¤ºã•ã‚Œã‚‹ã‚ˆã†å…ˆé ­ãƒšã‚¤ãƒ³å¹…ã‚’å¤‰æ›´
 	m_wndStatusBar.SetPaneInfo(0, 0, SBPS_NOBORDERS | SBPS_STRETCH, 0);
 
-	// Å¬ƒTƒCƒY‚Å•\Ž¦
+	// æœ€å°ã‚µã‚¤ã‚ºã§è¡¨ç¤º
 	CRect rcWindow;
 	GetWindowRect(&rcWindow);
 	rcWindow.BottomRight() = rcWindow.TopLeft();
@@ -120,14 +120,14 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	if( !CFrameWnd::PreCreateWindow(cs))
 		return FALSE;
 
-	cs.dwExStyle &= ~WS_EX_CLIENTEDGE;
+	cs.dwExStyle &= â€¾WS_EX_CLIENTEDGE;
 	cs.lpszClass = AfxRegisterWndClass(0);
 	return TRUE;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CMainFrame ƒNƒ‰ƒX‚Ìf’f
+// CMainFrame ã‚¯ãƒ©ã‚¹ã®è¨ºæ–­
 
 #ifdef _DEBUG
 void CMainFrame::AssertValid() const
@@ -144,7 +144,7 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CMainFrame ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// CMainFrame ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame::OnSetFocus
@@ -169,13 +169,13 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
 
 BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext) 
 {
-	// •ªŠ„ƒEƒBƒ“ƒhƒE”z’u
+	// åˆ†å‰²ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦é…ç½®
 //  +----------+----------+
 //  |          |          |
-//  |•\Ž¦ƒyƒCƒ“|Ý’èƒyƒCƒ“|
+//  |è¡¨ç¤ºãƒšã‚¤ãƒ³|è¨­å®šãƒšã‚¤ãƒ³|
 //  |          |          |
 //  +----------+----------+
-//  |ƒf[ƒ^“ü—ÍƒyƒCƒ“     |
+//  |ãƒ‡ãƒ¼ã‚¿å…¥åŠ›ãƒšã‚¤ãƒ³     |
 //  +---------------------+
 	m_wndSplitter1.CreateStatic(this, 2, 1);
 	m_wndSplitter1.CreateView(1, 0, RUNTIME_CLASS(CBottomView), CSize(0, 0), pContext);
@@ -187,7 +187,7 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	m_pwndBottomView = ((CBottomView*)m_wndSplitter1.GetPane(1, 0));
 	m_pwndRightView  = ((CRightView*)m_wndSplitter2.GetPane(0, 1));
 
-	// ‹K’èƒTƒCƒYŽæ“¾
+	// è¦å®šã‚µã‚¤ã‚ºå–å¾—
 	m_sizeBottomView = ((CFormView*)m_wndSplitter1.GetPane(1, 0))->GetTotalSize();
 	m_sizeRightView  = ((CFormView*)m_wndSplitter2.GetPane(0, 1))->GetTotalSize();
 
@@ -259,7 +259,7 @@ void CMainFrame::RecalcLayout(BOOL bNotify)
 
 void CMainFrame::OnGetMinMaxInfo(MINMAXINFO FAR* lpMMI) 
 {
-	static BOOL bRestore = FALSE; // Å¬‰»‚©‚ç‚Ì•œŒ³Žž‚Íˆ—‚µ‚È‚¢
+	static BOOL bRestore = FALSE; // æœ€å°åŒ–ã‹ã‚‰ã®å¾©å…ƒæ™‚ã¯å‡¦ç†ã—ãªã„
 
 	if (IsWindow(m_wndSplitter1.m_hWnd) && ! bRestore)
 	{
@@ -280,7 +280,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO FAR* lpMMI)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ƒƒjƒ…[€–ÚXV
+// ãƒ¡ãƒ‹ãƒ¥ãƒ¼é …ç›®æ›´æ–°
 
 void CMainFrame::OnUpdateFileSaveAs(CCmdUI* pCmdUI) 
 {
@@ -294,7 +294,7 @@ void CMainFrame::OnUpdateFileSave(CCmdUI* pCmdUI)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ƒƒjƒ…[ŽÀs
+// ãƒ¡ãƒ‹ãƒ¥ãƒ¼å®Ÿè¡Œ
 
 void CMainFrame::OnFileSave() 
 {
@@ -309,8 +309,8 @@ void CMainFrame::OnFileSaveAs()
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame::ShowImage
-// —p  “rF‚p‚qƒR[ƒhƒCƒ[ƒW‚ðì¬
-// ”õ  lFŽÀÛ‚Ì•`‰æ‚ÍCImageView::OnDraw
+// ç”¨  é€”ï¼šï¼±ï¼²ã‚³ãƒ¼ãƒ‰ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’ä½œæˆ
+// å‚™  è€ƒï¼šå®Ÿéš›ã®æç”»ã¯CImageView::OnDraw
 
 void CMainFrame::ShowImage()
 {
@@ -348,10 +348,10 @@ void CMainFrame::ShowImage()
 
 		m_pOldBitmap = m_pSymbleDC->SelectObject(m_pSymbleBitmap);
 
-		// ‰æ–ÊÁ‹Ž
+		// ç”»é¢æ¶ˆåŽ»
 		m_pSymbleDC->PatBlt(0, 0, m_nSymbleSize, m_nSymbleSize, WHITENESS);
 
-		// ƒhƒbƒg•`‰æ
+		// ãƒ‰ãƒƒãƒˆæç”»
 		for (i = 0; i < pQR_Encode->m_nSymbleSize; ++i)
 		{
 			for (j = 0; j < pQR_Encode->m_nSymbleSize; ++j)
@@ -363,7 +363,7 @@ void CMainFrame::ShowImage()
 			}
 		}
 
-		// •`‰æŒ^”Ô•\Ž¦
+		// æç”»åž‹ç•ªè¡¨ç¤º
 		CString strWork;
 
 		if (nVersion != pQR_Encode->m_nVersion)
@@ -373,7 +373,7 @@ void CMainFrame::ShowImage()
 
 		m_pwndRightView->m_staticVersion.SetWindowText(strWork);
 
-		// Ž©“®ƒ}ƒXƒLƒ“ƒO‘I‘ðŽž‚Ìƒ}ƒXƒLƒ“ƒO”Ô†•\Ž¦
+		// è‡ªå‹•ãƒžã‚¹ã‚­ãƒ³ã‚°é¸æŠžæ™‚ã®ãƒžã‚¹ã‚­ãƒ³ã‚°ç•ªå·è¡¨ç¤º
 		if (nMaskingNo == -1)
 			strWork.Format("(%d)", pQR_Encode->m_nMaskingNo);
 		else
@@ -381,34 +381,34 @@ void CMainFrame::ShowImage()
 
 		m_pwndRightView->m_staticMaskingNo.SetWindowText(strWork);
 
-		// ƒ{ƒ^ƒ“Žg—p‰Â
+		// ãƒœã‚¿ãƒ³ä½¿ç”¨å¯
 		m_pwndRightView->m_buttonCopy.EnableWindow();
 		m_pwndRightView->m_buttonSave.EnableWindow();
 	}
 	else
 	{
-		// •\Ž¦ƒNƒŠƒA
+		// è¡¨ç¤ºã‚¯ãƒªã‚¢
 		m_pwndRightView->m_staticVersion.SetWindowText("");
 		m_pwndRightView->m_staticMaskingNo.SetWindowText("");
 
-		// ƒ{ƒ^ƒ“Žg—p•s‰Â
+		// ãƒœã‚¿ãƒ³ä½¿ç”¨ä¸å¯
 		m_pwndRightView->m_buttonCopy.EnableWindow(FALSE);
 		m_pwndRightView->m_buttonSave.EnableWindow(FALSE);
 	}
 
 	delete pQR_Encode;
 
-	// •Û‘¶Žž‰æ‘œƒTƒCƒY•\Ž¦
+	// ä¿å­˜æ™‚ç”»åƒã‚µã‚¤ã‚ºè¡¨ç¤º
 	ShowBitmapSize();
 
-	// •\Ž¦ƒyƒCƒ“‚ð–³Œø‰»‚µ•`‰æ
+	// è¡¨ç¤ºãƒšã‚¤ãƒ³ã‚’ç„¡åŠ¹åŒ–ã—æç”»
 	m_wndSplitter1.GetPane(0, 0)->InvalidateRect(NULL, FALSE);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame::ShowBitmapSize
-// —p  “rF•Û‘¶Žž‰æ‘œƒTƒCƒY‚Ì•\Ž¦
+// ç”¨  é€”ï¼šä¿å­˜æ™‚ç”»åƒã‚µã‚¤ã‚ºã®è¡¨ç¤º
 
 void CMainFrame::ShowBitmapSize()
 {
@@ -422,7 +422,7 @@ void CMainFrame::ShowBitmapSize()
 		if (nModuleSize >= 1 && nModuleSize <= 20) 
 		{
 			int nSize = m_nSymbleSize * nModuleSize;
-			strWork.Format("%d ~ %d", nSize, nSize);
+			strWork.Format("%d Ã— %d", nSize, nSize);
 		}
 	}
 
@@ -432,31 +432,31 @@ void CMainFrame::ShowBitmapSize()
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame::CopyImage
-// —p  “rF‚p‚qƒR[ƒhƒCƒ[ƒW‚ðƒNƒŠƒbƒvƒ{[ƒh‚ÉƒRƒs[
-// ˆø  ”FCOleDataSource ƒAƒhƒŒƒXiƒfƒtƒHƒ‹ƒg=NULLj
-// ”õ  lFCOleDataSource ‚ªŽw’è‚³‚ê‚½ê‡‚ÍOLEƒhƒ‰ƒbƒO&ƒhƒƒbƒvA–³Žw’èŽž‚ÍƒNƒŠƒbƒvƒ{[ƒhƒRƒs[
-//		   ƒtƒH[ƒ}ƒbƒg‚ÍDIBŒ`Ž®‚ðŽg—p
+// ç”¨  é€”ï¼šï¼±ï¼²ã‚³ãƒ¼ãƒ‰ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã«ã‚³ãƒ”ãƒ¼
+// å¼•  æ•°ï¼šCOleDataSource ã‚¢ãƒ‰ãƒ¬ã‚¹ï¼ˆãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ=NULLï¼‰
+// å‚™  è€ƒï¼šCOleDataSource ãŒæŒ‡å®šã•ã‚ŒãŸå ´åˆã¯OLEãƒ‰ãƒ©ãƒƒã‚°&ãƒ‰ãƒ­ãƒƒãƒ—ã€ç„¡æŒ‡å®šæ™‚ã¯ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã‚³ãƒ”ãƒ¼
+//		   ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆã¯DIBå½¢å¼ã‚’ä½¿ç”¨
 
 void CMainFrame::CopyImage(COleDataSource* pOleDataSource)
 {
 	int nPixelSize = m_nSymbleSize * m_pwndRightView->GetDlgItemInt(IDC_EDITMODULESIZE);
 
-	// ƒrƒbƒgƒf[ƒ^ƒTƒCƒYŽæ“¾
+	// ãƒ“ãƒƒãƒˆãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºå–å¾—
 	int nBmpSize = ((nPixelSize + 31) / 32) * 32 / 8;
 	nBmpSize *= nPixelSize;
 
-	// ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠŽæ“¾
+	// ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒ¡ãƒ¢ãƒªå–å¾—
 	HGLOBAL hGlobal = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 2 + nBmpSize);
 
 	if (hGlobal == NULL)
 	{
-		MessageBox("ƒƒ‚ƒŠ•s‘«‚Å‚·B", NULL, MB_ICONEXCLAMATION);
+		MessageBox("ãƒ¡ãƒ¢ãƒªä¸è¶³ã§ã™ã€‚", NULL, MB_ICONEXCLAMATION);
 		return;
 	}
 
 	LPBYTE lpbyBits = (LPBYTE)GlobalLock(hGlobal);
 
-	// \‘¢‘ÌƒAƒhƒŒƒXŠ„•t
+	// æ§‹é€ ä½“ã‚¢ãƒ‰ãƒ¬ã‚¹å‰²ä»˜
 	LPBITMAPINFO pbmi = (LPBITMAPINFO)lpbyBits;
 	LPVOID       pbdt = lpbyBits + sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 2;
 
@@ -492,7 +492,7 @@ void CMainFrame::CopyImage(COleDataSource* pOleDataSource)
 
 	if (pOleDataSource == NULL)
 	{
-		// ƒNƒŠƒbƒvƒ{[ƒh‚ÉƒRƒs[
+		// ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã«ã‚³ãƒ”ãƒ¼
 		OpenClipboard();
 		EmptyClipboard();
 		SetClipboardData(CF_DIB, hGlobal);
@@ -500,7 +500,7 @@ void CMainFrame::CopyImage(COleDataSource* pOleDataSource)
 	}
 	else
 	{
-		// OLEƒhƒ‰ƒbƒO&ƒhƒƒbƒv ƒf[ƒ^“]‘—
+		// OLEãƒ‰ãƒ©ãƒƒã‚°&ãƒ‰ãƒ­ãƒƒãƒ— ãƒ‡ãƒ¼ã‚¿è»¢é€
 		pOleDataSource->CacheGlobalData(CF_DIB, hGlobal);
 		pOleDataSource->DoDragDrop(DROPEFFECT_COPY);
 	}
@@ -509,19 +509,19 @@ void CMainFrame::CopyImage(COleDataSource* pOleDataSource)
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame::SaveAsImage
-// —p  “rF‚p‚qƒR[ƒhƒCƒ[ƒW‚ðƒrƒbƒgƒ}ƒbƒvƒtƒ@ƒCƒ‹‚É•Û‘¶
+// ç”¨  é€”ï¼šï¼±ï¼²ã‚³ãƒ¼ãƒ‰ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’ãƒ“ãƒƒãƒˆãƒžãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜
 
 void CMainFrame::SaveAsImage()
 {
-	// CFileDialog ƒNƒ‰ƒX\’z
+	// CFileDialog ã‚¯ãƒ©ã‚¹æ§‹ç¯‰
 	CFileDialog* pFileDialog = new CFileDialog(FALSE, "bmp", m_strSavePath, OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY | OFN_PATHMUSTEXIST,
-											   "ÓÉ¸Û ËÞ¯ÄÏ¯Ìß (*.bmp)|*.bmp|‘S‚Ä‚ÌÌ§²Ù (*.*)|*.*||", this);
+											   "ï¾“ï¾‰ï½¸ï¾› ï¾‹ï¾žï½¯ï¾„ï¾ï½¯ï¾Œï¾Ÿ (*.bmp)|*.bmp|å…¨ã¦ã®ï¾Œï½§ï½²ï¾™ (*.*)|*.*||", this);
 
-	pFileDialog->m_ofn.lpstrTitle = "QR Code ²Ò°¼Þ•Û‘¶";
+	pFileDialog->m_ofn.lpstrTitle = "QR Code ï½²ï¾’ï½°ï½¼ï¾žä¿å­˜";
 
 	CString strFileName;
 
-	//uƒtƒ@ƒCƒ‹•Û‘¶vƒ_ƒCƒAƒƒO•\Ž¦
+	//ã€Œãƒ•ã‚¡ã‚¤ãƒ«ä¿å­˜ã€ãƒ€ã‚¤ã‚¢ãƒ­ã‚°è¡¨ç¤º
 	if (pFileDialog->DoModal() == IDOK)
 		strFileName = pFileDialog->GetPathName();
 
@@ -538,24 +538,24 @@ void CMainFrame::SaveAsImage()
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame::SaveImage
-// —p  “rF‚p‚qƒR[ƒhƒCƒ[ƒW‚ðƒrƒbƒgƒ}ƒbƒvƒtƒ@ƒCƒ‹‚É•Û‘¶
+// ç”¨  é€”ï¼šï¼±ï¼²ã‚³ãƒ¼ãƒ‰ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’ãƒ“ãƒƒãƒˆãƒžãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜
 
 void CMainFrame::SaveImage()
 {
 	int nPixelSize = m_nSymbleSize * m_pwndRightView->GetDlgItemInt(IDC_EDITMODULESIZE);
 
-	// ƒrƒbƒgƒf[ƒ^ƒTƒCƒYŽæ“¾
+	// ãƒ“ãƒƒãƒˆãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºå–å¾—
 	int nBmpSize = ((nPixelSize + 31) / 32) * 32 / 8;
 	nBmpSize *= nPixelSize;
 
-	// ƒƒ‚ƒŠ[ƒ}ƒbƒvƒhƒtƒ@ƒCƒ‹ì¬
+	// ãƒ¡ãƒ¢ãƒªãƒ¼ãƒžãƒƒãƒ—ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ä½œæˆ
 	HANDLE hFile = CreateFile(m_strSavePath, GENERIC_READ | GENERIC_WRITE, 0, NULL,
 							  CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
 		m_strSavePath.Empty();
-		MessageBox("ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒGƒ‰[", "QR Code ²Ò°¼Þ•Û‘¶", MB_ICONSTOP);
+		MessageBox("ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã‚¨ãƒ©ãƒ¼", "QR Code ï½²ï¾’ï½°ï½¼ï¾žä¿å­˜", MB_ICONSTOP);
 		return;
 	}
 
@@ -565,7 +565,7 @@ void CMainFrame::SaveImage()
 
 	ZeroMemory(lpbyMapView, sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 2 + nBmpSize);
 
-	// \‘¢‘ÌƒAƒhƒŒƒXŠ„•t
+	// æ§‹é€ ä½“ã‚¢ãƒ‰ãƒ¬ã‚¹å‰²ä»˜
 	LPBITMAPFILEHEADER pbfh = (LPBITMAPFILEHEADER)lpbyMapView;
 	LPBITMAPINFO       pbmi = (LPBITMAPINFO)(lpbyMapView + sizeof(BITMAPFILEHEADER));
 	LPVOID             pbdt = lpbyMapView + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * 2;

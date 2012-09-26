@@ -1,4 +1,4 @@
-// MainFrm.h : CMainFrame ƒNƒ‰ƒXéŒ¾‚¨‚æ‚ÑƒCƒ“ƒ^[ƒtƒFƒCƒX’è‹`
+// MainFrm.h : CMainFrame ã‚¯ãƒ©ã‚¹å®£è¨€ãŠã‚ˆã³ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹å®šç¾©
 // Date 2006/05/17	Ver. 1.22	Psytec Inc.
 
 #if !defined(AFX_MAINFRM_H__F7C4DD34_15EF_41C5_8907_C79B3F8FF648__INCLUDED_)
@@ -14,7 +14,7 @@
 #include "BottomView.h"
 
 /////////////////////////////////////////////////////////////////////////////
-// CMainFrame ƒNƒ‰ƒX
+// CMainFrame ã‚¯ãƒ©ã‚¹
 
 class CMainFrame : public CFrameWnd
 {
@@ -23,9 +23,9 @@ public:
 protected: 
 	DECLARE_DYNAMIC(CMainFrame)
 
-// ƒAƒgƒŠƒrƒ…[ƒg
+// ã‚¢ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ãƒˆ
 public:
-	// ‚p‚qƒR[ƒh•\¦—p
+	// ï¼±ï¼²ã‚³ãƒ¼ãƒ‰è¡¨ç¤ºç”¨
 	int m_bDataEncoded;
 	int m_nSymbleSize;
 
@@ -33,7 +33,7 @@ public:
 	CBitmap* m_pSymbleBitmap;
 	CBitmap* m_pOldBitmap;
 
-	// •ªŠ„ƒEƒBƒ“ƒhƒEŠÖ˜A
+	// åˆ†å‰²ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦é–¢é€£
 	BOOL m_bInitSplit;
 
 	CSplitterWnd m_wndSplitter1;
@@ -45,10 +45,10 @@ public:
 	CBottomView* m_pwndBottomView;
 	CRightView*  m_pwndRightView;
 
-	// ƒtƒ@ƒCƒ‹•Û‘¶ƒpƒX
+	// ãƒ•ã‚¡ã‚¤ãƒ«ä¿å­˜ãƒ‘ã‚¹
 	CString m_strSavePath;
 
-// ƒIƒyƒŒ[ƒVƒ‡ƒ“
+// ã‚ªãƒšãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
 public:
 	void ShowImage();
 	void ShowBitmapSize();
@@ -56,7 +56,7 @@ public:
 	void SaveAsImage();
 	void SaveImage();
 
-// ƒI[ƒo[ƒ‰ƒCƒh
+// ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
 	//{{AFX_VIRTUAL(CMainFrame)
 	public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
@@ -66,19 +66,19 @@ public:
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 	//}}AFX_VIRTUAL
 
-// ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 public:
-	virtual ~CMainFrame();
+	virtual â€¾CMainFrame();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-protected:  // ƒRƒ“ƒgƒ[ƒ‹ƒo[—pƒƒ“ƒo
+protected:  // ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ãƒãƒ¼ç”¨ãƒ¡ãƒ³ãƒ
 	CStatusBar m_wndStatusBar;
 	CToolBar   m_wndToolBar;
 
-// ¶¬‚³‚ê‚½ƒƒbƒZ[ƒWƒ}ƒbƒvŠÖ”
+// ç”Ÿæˆã•ã‚ŒãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒãƒƒãƒ—é–¢æ•°
 protected:
 	//{{AFX_MSG(CMainFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

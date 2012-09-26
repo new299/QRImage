@@ -1,4 +1,4 @@
-// BottomView.h : CBottomView ƒNƒ‰ƒXéŒ¾‚¨‚æ‚ÑƒCƒ“ƒ^[ƒtƒFƒCƒX’è‹`
+// BottomView.h : CBottomView ã‚¯ãƒ©ã‚¹å®£è¨€ãŠã‚ˆã³ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹å®šç¾©
 // Date 2006/05/17	Ver. 1.22	Psytec Inc.
 
 #if !defined(AFX_BOTTOMVIEW_H__71E48AFF_E3E1_4C80_B69D_8CA5A9D4017D__INCLUDED_)
@@ -13,7 +13,7 @@
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// CBottomView ƒNƒ‰ƒX
+// CBottomView ã‚¯ãƒ©ã‚¹
 
 class CBottomView : public CFormView
 {
@@ -21,30 +21,30 @@ protected:
 	CBottomView();
 	DECLARE_DYNCREATE(CBottomView)
 
-// ƒtƒH[ƒ€ ƒf[ƒ^
+// ãƒ•ã‚©ãƒ¼ãƒ  ãƒ‡ãƒ¼ã‚¿
 public:
 	//{{AFX_DATA(CBottomView)
 	enum { IDD = IDD_BOTTOMVIEW };
 	CEdit	m_editSoureData;
 	//}}AFX_DATA
 
-// ƒAƒgƒŠƒrƒ…[ƒg
+// ã‚¢ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ãƒˆ
 private:
 	BOOL m_bInitControl;
 
-// ƒIƒyƒŒ[ƒVƒ‡ƒ“
+// ã‚ªãƒšãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
 public:
 
-// ƒI[ƒo[ƒ‰ƒCƒh
+// ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
 	//{{AFX_VIRTUAL(CBottomView)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV ƒTƒ|[ƒg
+	virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV ã‚µãƒãƒ¼ãƒˆ
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	//}}AFX_VIRTUAL
 
-// ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 protected:
-	virtual ~CBottomView();
+	virtual â€¾CBottomView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;

@@ -1,4 +1,4 @@
-// ImageView.cpp : CImageView ƒNƒ‰ƒX ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“ƒtƒ@ƒCƒ‹
+// ImageView.cpp : CImageView ã‚¯ãƒ©ã‚¹ ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«
 // Date 2006/05/17	Ver. 1.22	Psytec Inc.
 
 #include "stdafx.h"
@@ -21,7 +21,7 @@ CImageView::CImageView()
 {
 }
 
-CImageView::~CImageView()
+CImageView::â€¾CImageView()
 {
 }
 
@@ -40,7 +40,7 @@ BEGIN_MESSAGE_MAP(CImageView, CView)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CImageView •`‰æ
+// CImageView æç”»
 
 void CImageView::OnDraw(CDC* pDC)
 {
@@ -54,7 +54,7 @@ void CImageView::OnDraw(CDC* pDC)
 		int nSrcSize = pMainFrame->m_nSymbleSize;
 		int nDstSize = min(rcClient.Width(), rcClient.Height());
 
-		// ‚‘¬‰»‚Ì‚½‚ßˆê’Uƒƒ‚ƒŠ“à‚ÅƒXƒgƒŒƒbƒ`‚µ‚Ä‚©‚ç‰æ–Ê‚É•\¦
+		// é«˜é€ŸåŒ–ã®ãŸã‚ä¸€æ—¦ãƒ¡ãƒ¢ãƒªå†…ã§ã‚¹ãƒˆãƒ¬ãƒƒãƒã—ã¦ã‹ã‚‰ç”»é¢ã«è¡¨ç¤º
 		CDC* pWorkDC = new CDC;
 		pWorkDC->CreateCompatibleDC(NULL);
 
@@ -82,7 +82,7 @@ BOOL CImageView::OnEraseBkgnd(CDC* pDC)
 	CRect rcClient;
 	GetClientRect(&rcClient);
 
-	// ƒVƒ“ƒ{ƒ‹•\¦ƒGƒŠƒAˆÈŠO‚ğ”’‚Å“h‚è’×‚µ
+	// ã‚·ãƒ³ãƒœãƒ«è¡¨ç¤ºã‚¨ãƒªã‚¢ä»¥å¤–ã‚’ç™½ã§å¡—ã‚Šæ½°ã—
 	if (rcClient.Width() != rcClient.Height())
 	{
 		if (rcClient.Width() > rcClient.Height())
@@ -98,7 +98,7 @@ BOOL CImageView::OnEraseBkgnd(CDC* pDC)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CImageView f’f
+// CImageView è¨ºæ–­
 
 #ifdef _DEBUG
 void CImageView::AssertValid() const
@@ -114,31 +114,31 @@ void CImageView::Dump(CDumpContext& dc) const
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CImageView ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// CImageView ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 /////////////////////////////////////////////////////////////////////////////
-// ƒ}ƒEƒX‰Eƒ{ƒ^ƒ“ƒNƒŠƒbƒN‚É‚æ‚éƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[•\¦
+// ãƒã‚¦ã‚¹å³ãƒœã‚¿ãƒ³ã‚¯ãƒªãƒƒã‚¯ã«ã‚ˆã‚‹ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãƒ¡ãƒ‹ãƒ¥ãƒ¼è¡¨ç¤º
 
 void CImageView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
 	CMenu Menu;
 
-	// ƒƒjƒ…[iƒŠƒ\[ƒXj‚ğƒ[ƒh
+	// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ï¼ˆãƒªã‚½ãƒ¼ã‚¹ï¼‰ã‚’ãƒ­ãƒ¼ãƒ‰
 	Menu.LoadMenu(IDR_IMAGEMENU);
 
-	// ƒTƒuiƒ|ƒbƒvƒAƒbƒv jƒƒjƒ…[æ“¾
+	// ã‚µãƒ–ï¼ˆãƒãƒƒãƒ—ã‚¢ãƒƒãƒ— ï¼‰ãƒ¡ãƒ‹ãƒ¥ãƒ¼å–å¾—
 	CMenu* pPopupMenu = Menu.GetSubMenu(0);
 
-	// ƒƒjƒ…[€–Ú‚Ì—LŒø^–³Œø‰»
+	// ãƒ¡ãƒ‹ãƒ¥ãƒ¼é …ç›®ã®æœ‰åŠ¹ï¼ç„¡åŠ¹åŒ–
 	pPopupMenu->EnableMenuItem(ID_EDIT_COPY, ((CMainFrame*)(AfxGetApp()->m_pMainWnd))->m_bDataEncoded ? MF_ENABLED : MF_GRAYED);
 
-	// ƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚ğ•\¦
+	// ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’è¡¨ç¤º
 	pPopupMenu->TrackPopupMenu(TPM_RIGHTBUTTON | TPM_LEFTBUTTON, point.x, point.y, this);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ƒƒjƒ…[€–ÚXV
+// ãƒ¡ãƒ‹ãƒ¥ãƒ¼é …ç›®æ›´æ–°
 
 void CImageView::OnUpdateEditUndo(CCmdUI* pCmdUI)
 {
@@ -162,7 +162,7 @@ void CImageView::OnUpdateEditPaste(CCmdUI* pCmdUI)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ƒƒjƒ…[Às
+// ãƒ¡ãƒ‹ãƒ¥ãƒ¼å®Ÿè¡Œ
 
 void CImageView::OnEditCopy() 
 {
@@ -171,7 +171,7 @@ void CImageView::OnEditCopy()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// OLE ƒhƒ‰ƒbƒO•ƒhƒƒbƒvÀ‘•
+// OLE ãƒ‰ãƒ©ãƒƒã‚°ï¼†ãƒ‰ãƒ­ãƒƒãƒ—å®Ÿè£…
 
 void CImageView::OnLButtonDown(UINT nFlags, CPoint point) 
 {

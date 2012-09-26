@@ -1,4 +1,4 @@
-// QR_Image.cpp : ƒAƒvƒŠƒP[ƒVƒ‡ƒ“—pƒNƒ‰ƒX‚Ì‹@”\’è‹`
+// QR_Image.cpp : ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ç”¨ã‚¯ãƒ©ã‚¹ã®æ©Ÿèƒ½å®šç¾©
 // Date 2006/05/17	Ver. 1.22	Psytec Inc.
 
 #include "stdafx.h"
@@ -24,7 +24,7 @@ END_MESSAGE_MAP()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CQR_ImageApp ƒNƒ‰ƒX‚Ì\’z
+// CQR_ImageApp ã‚¯ãƒ©ã‚¹ã®æ§‹ç¯‰
 
 CQR_ImageApp::CQR_ImageApp()
 {
@@ -32,22 +32,22 @@ CQR_ImageApp::CQR_ImageApp()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// —Bˆê‚Ì CQR_ImageApp ƒIƒuƒWƒFƒNƒg
+// å”¯ä¸€ã® CQR_ImageApp ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 
 CQR_ImageApp theApp;
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CQR_ImageApp ƒNƒ‰ƒX‚Ì‰Šú‰»
+// CQR_ImageApp ã‚¯ãƒ©ã‚¹ã®åˆæœŸåŒ–
 
 BOOL CQR_ImageApp::InitInstance()
 {
-	// OLE ‰Šú‰»
+	// OLE åˆæœŸåŒ–
 	if (! AfxOleInit())
 	   return FALSE;
 
-// ƒƒ‚ƒŠƒŠ[ƒNŒŸo—pƒ`ƒFƒbƒNƒ|ƒCƒ“ƒgÝ’èiƒfƒoƒbƒOŽž‚Ì‚Ýj
-// ¦ToolTip ŠÖ˜A‚ÌƒŠ[ƒN‚Í–â‘è‚È‚µ
+// ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯æ¤œå‡ºç”¨ãƒã‚§ãƒƒã‚¯ãƒã‚¤ãƒ³ãƒˆè¨­å®šï¼ˆãƒ‡ãƒãƒƒã‚°æ™‚ã®ã¿ï¼‰
+// â€»ToolTip é–¢é€£ã®ãƒªãƒ¼ã‚¯ã¯å•é¡Œãªã—
 #ifdef _DEBUG
 	mStart.Checkpoint();
 #endif //_DEBUG
@@ -60,18 +60,18 @@ BOOL CQR_ImageApp::InitInstance()
 	#endif
 #endif
 
-	// ƒƒCƒ“ƒEƒCƒ“ƒhƒEì¬
+	// ãƒ¡ã‚¤ãƒ³ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ä½œæˆ
 	CMainFrame* pFrame = new CMainFrame;
 	m_pMainWnd = pFrame;
 
-	// ƒtƒŒ[ƒ€‚ðƒŠƒ\[ƒX‚©‚çƒ[ƒh
+	// ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’ãƒªã‚½ãƒ¼ã‚¹ã‹ã‚‰ãƒ­ãƒ¼ãƒ‰
 	pFrame->LoadFrame(IDR_MAINFRAME, WS_OVERLAPPEDWINDOW, NULL, NULL);
 
-	// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒAƒCƒRƒ“ƒZƒbƒg
+	// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¢ã‚¤ã‚³ãƒ³ã‚»ãƒƒãƒˆ
 	HICON hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	pFrame->SetIcon(hIcon, TRUE);
 
-	// ƒƒCƒ“ƒEƒBƒ“ƒhƒE•\Ž¦AXV
+	// ãƒ¡ã‚¤ãƒ³ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤ºã€æ›´æ–°
 	pFrame->ShowWindow(SW_SHOW);
 	pFrame->UpdateWindow();
 
@@ -80,25 +80,25 @@ BOOL CQR_ImageApp::InitInstance()
 
 int CQR_ImageApp::ExitInstance() 
 {
-// ƒƒ‚ƒŠ[ƒŠ[ƒNî•ñ•\Ž¦iƒfƒoƒbƒOŽž‚Ì‚Ýj
+// ãƒ¡ãƒ¢ãƒªãƒ¼ãƒªãƒ¼ã‚¯æƒ…å ±è¡¨ç¤ºï¼ˆãƒ‡ãƒãƒƒã‚°æ™‚ã®ã¿ï¼‰
 #ifdef _DEBUG
 	mEnd.Checkpoint();
 
 	if (mDiff.Difference(mStart, mEnd))
 	{
-		TRACE("\n-------- Detected memory leaks. DUMP(DumpStatistics) Start --------\n");
+		TRACE("Â¥n-------- Detected memory leaks. DUMP(DumpStatistics) Start --------Â¥n");
 		mDiff.DumpStatistics();
-		TRACE("-------- Detected memory leaks. DUMP(DumpStatistics) End --------\n");
+		TRACE("-------- Detected memory leaks. DUMP(DumpStatistics) End --------Â¥n");
 
-		TRACE("\n-------- Detected memory leaks. DUMP(DumpAllObjectsSince) Start --------\n");
+		TRACE("Â¥n-------- Detected memory leaks. DUMP(DumpAllObjectsSince) Start --------Â¥n");
 		mDiff.DumpAllObjectsSince();
-		TRACE("-------- Detected memory leaks. DUMP(DumpAllObjectsSince) End --------\n\n");
+		TRACE("-------- Detected memory leaks. DUMP(DumpAllObjectsSince) End --------Â¥nÂ¥n");
 
 //		AfxMessageBox("Detected memory leaks.", MB_OK | MB_ICONEXCLAMATION);
 	}
 	else
 	{
-		TRACE("\n-------- No detected memory leaks. OK !! --------\n\n");
+		TRACE("Â¥n-------- No detected memory leaks. OK !! --------Â¥nÂ¥n");
 	}
 #endif //_DEBUG
 
@@ -107,7 +107,7 @@ int CQR_ImageApp::ExitInstance()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒo[ƒWƒ‡ƒ“î•ñ‚ÅŽg‚í‚ê‚é CAboutDlg ƒ_ƒCƒAƒƒO
+// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±ã§ä½¿ã‚ã‚Œã‚‹ CAboutDlg ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 
 class CAboutDlg : public CDialog
 {
@@ -115,27 +115,27 @@ public:
 	CAboutDlg();
 
 	HCURSOR m_hCurArrow, m_hCurWait, m_hCurHand;
-	HFONT   m_hFont;  // URL/MailTo •\Ž¦•¶Žš—ñƒtƒHƒ“ƒg
+	HFONT   m_hFont;  // URL/MailTo è¡¨ç¤ºæ–‡å­—åˆ—ãƒ•ã‚©ãƒ³ãƒˆ
 
-	// Ä•`‰æ—}§‚Ì‚½‚ß‚Ìƒtƒ‰ƒO
+	// å†æç”»æŠ‘åˆ¶ã®ãŸã‚ã®ãƒ•ãƒ©ã‚°
 	BOOL m_bPointOnUrl;
 	BOOL m_bPointOnMailTo;
 
-	// ƒ}ƒEƒXƒ{ƒ^ƒ“‰ŸãŽž‚ÉƒRƒ}ƒ“ƒhŽÀs‚·‚é‚½‚ß‚Ìƒtƒ‰ƒO
+	// ãƒžã‚¦ã‚¹ãƒœã‚¿ãƒ³æŠ¼ä¸Šæ™‚ã«ã‚³ãƒžãƒ³ãƒ‰å®Ÿè¡Œã™ã‚‹ãŸã‚ã®ãƒ•ãƒ©ã‚°
 	BOOL m_bBtnDownUrl;
 	BOOL m_bBtnDownMailTo;
 
-// ƒ_ƒCƒAƒƒO ƒf[ƒ^
+// ãƒ€ã‚¤ã‚¢ãƒ­ã‚° ãƒ‡ãƒ¼ã‚¿
 	//{{AFX_DATA(CAboutDlg)
 	enum { IDD = IDD_ABOUTBOX };
 	//}}AFX_DATA
 
 	//{{AFX_VIRTUAL(CAboutDlg)
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV ‚ÌƒTƒ|[ƒg
+	virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV ã®ã‚µãƒãƒ¼ãƒˆ
 	//}}AFX_VIRTUAL
 
-// ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 protected:
 	//{{AFX_MSG(CAboutDlg)
 	virtual BOOL OnInitDialog();
@@ -171,7 +171,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-// ƒ_ƒCƒAƒƒO‚ðŽÀs‚·‚é‚½‚ß‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒRƒ}ƒ“ƒh
+// ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’å®Ÿè¡Œã™ã‚‹ãŸã‚ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚³ãƒžãƒ³ãƒ‰
 void CQR_ImageApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;
@@ -189,7 +189,7 @@ BOOL CAboutDlg::OnInitDialog()
 	m_bPointOnUrl = m_bPointOnMailTo = FALSE;
 	m_bBtnDownUrl = m_bBtnDownMailTo = FALSE;
 
-	// ƒtƒHƒ“ƒgì¬iƒAƒ“ƒ_[ƒ‰ƒCƒ“•t‰Áj
+	// ãƒ•ã‚©ãƒ³ãƒˆä½œæˆï¼ˆã‚¢ãƒ³ãƒ€ãƒ¼ãƒ©ã‚¤ãƒ³ä»˜åŠ ï¼‰
 	LOGFONT lf;
 	lf.lfHeight			= 12;
 	lf.lfWidth			= 0;
@@ -204,7 +204,7 @@ BOOL CAboutDlg::OnInitDialog()
 	lf.lfClipPrecision	= CLIP_DEFAULT_PRECIS;
 	lf.lfQuality		= PROOF_QUALITY;
 	lf.lfPitchAndFamily = DEFAULT_PITCH;
-	lstrcpy(lf.lfFaceName, "‚l‚r ‚oƒSƒVƒbƒN");
+	lstrcpy(lf.lfFaceName, "ï¼­ï¼³ ï¼°ã‚´ã‚·ãƒƒã‚¯");
 
 	m_hFont = CreateFontIndirect(&lf);
 	GetDlgItem(IDC_STATICURL)->SendMessage(WM_SETFONT, (WPARAM)m_hFont, TRUE);
@@ -217,7 +217,7 @@ void CAboutDlg::OnDestroy()
 {
 	CDialog::OnDestroy();
 	
-	// Žg—pƒIƒuƒWƒFƒNƒg”jŠü
+	// ä½¿ç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç ´æ£„
 	DeleteObject(m_hFont);
 }
 
@@ -238,7 +238,7 @@ HBRUSH CAboutDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 void CAboutDlg::OnMouseMove(UINT nFlags, CPoint point)
 {
-	// ƒ}ƒEƒXÀ•WˆÊ’uƒ`ƒFƒbƒN
+	// ãƒžã‚¦ã‚¹åº§æ¨™ä½ç½®ãƒã‚§ãƒƒã‚¯
 	ClientToScreen(&point);
 
 	CRect rectUrl;
@@ -247,12 +247,12 @@ void CAboutDlg::OnMouseMove(UINT nFlags, CPoint point)
 	CRect rectMailTo;
 	GetDlgItem(IDC_STATICMAILTO)->GetWindowRect(rectMailTo);
 
-	// ƒJ[ƒ\ƒ‹•ÏX
+	// ã‚«ãƒ¼ã‚½ãƒ«å¤‰æ›´
 	SetCursor(rectUrl.PtInRect(point) || rectMailTo.PtInRect(point) ? m_hCurHand : m_hCurArrow);
 
 	if (m_bPointOnUrl != rectUrl.PtInRect(point))
 	{
-		// URL •\Ž¦ƒeƒLƒXƒgF•ÏX
+		// URL è¡¨ç¤ºãƒ†ã‚­ã‚¹ãƒˆè‰²å¤‰æ›´
 		GetDlgItem(IDC_STATICURL)->InvalidateRect(NULL);
 		m_bPointOnUrl = rectUrl.PtInRect(point);
 
@@ -264,7 +264,7 @@ void CAboutDlg::OnMouseMove(UINT nFlags, CPoint point)
 
 	if (m_bPointOnMailTo != rectMailTo.PtInRect(point))
 	{
-		// mailto •\Ž¦ƒeƒLƒXƒgF•ÏX
+		// mailto è¡¨ç¤ºãƒ†ã‚­ã‚¹ãƒˆè‰²å¤‰æ›´
 		GetDlgItem(IDC_STATICMAILTO)->InvalidateRect(NULL);
 		m_bPointOnMailTo = rectMailTo.PtInRect(point);
 
@@ -279,7 +279,7 @@ void CAboutDlg::OnMouseMove(UINT nFlags, CPoint point)
 
 void CAboutDlg::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	// ƒ}ƒEƒXÀ•WˆÊ’uƒ`ƒFƒbƒN
+	// ãƒžã‚¦ã‚¹åº§æ¨™ä½ç½®ãƒã‚§ãƒƒã‚¯
 	ClientToScreen(&point);
 
 	CRect rectUrl;
@@ -288,7 +288,7 @@ void CAboutDlg::OnLButtonDown(UINT nFlags, CPoint point)
 	CRect rectMailTo;
 	GetDlgItem(IDC_STATICMAILTO)->GetWindowRect(rectMailTo);
 
-	// ƒJ[ƒ\ƒ‹•ÏX
+	// ã‚«ãƒ¼ã‚½ãƒ«å¤‰æ›´
 	SetCursor(rectUrl.PtInRect(point) || rectMailTo.PtInRect(point) ? m_hCurHand : m_hCurArrow);
 
 	m_bBtnDownUrl    = rectUrl.PtInRect(point);
@@ -301,7 +301,7 @@ void CAboutDlg::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	if (m_bBtnDownUrl)
 	{
-		// ƒ}ƒEƒXÀ•WˆÊ’uƒ`ƒFƒbƒN
+		// ãƒžã‚¦ã‚¹åº§æ¨™ä½ç½®ãƒã‚§ãƒƒã‚¯
 		ClientToScreen(&point);
 
 		CRect rectUrl;
@@ -311,10 +311,10 @@ void CAboutDlg::OnLButtonUp(UINT nFlags, CPoint point)
 		{
 			SetCursor(m_hCurWait);
 
-			// ƒuƒ‰ƒEƒU‹N“®
+			// ãƒ–ãƒ©ã‚¦ã‚¶èµ·å‹•
 			ShellExecute(m_hWnd, "open", "http://www.psytec.co.jp/", NULL, "", SW_SHOW);
 
-			// –{ƒ_ƒCƒAƒƒO‚ª‰B‚³‚ê‚éê‡‚ðl—¶‚µƒeƒLƒXƒg‚ðÄ•`‰æ
+			// æœ¬ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ãŒéš ã•ã‚Œã‚‹å ´åˆã‚’è€ƒæ…®ã—ãƒ†ã‚­ã‚¹ãƒˆã‚’å†æç”»
 			m_bPointOnUrl = FALSE;
 			GetDlgItem(IDC_STATICURL)->InvalidateRect(NULL);
 
@@ -325,7 +325,7 @@ void CAboutDlg::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	else if (m_bBtnDownMailTo)
 	{
-		// ƒ}ƒEƒXÀ•WˆÊ’uƒ`ƒFƒbƒN
+		// ãƒžã‚¦ã‚¹åº§æ¨™ä½ç½®ãƒã‚§ãƒƒã‚¯
 		ClientToScreen(&point);
 
 		CRect rectMailTo;
@@ -335,10 +335,10 @@ void CAboutDlg::OnLButtonUp(UINT nFlags, CPoint point)
 		{
 			SetCursor(m_hCurWait);
 
-			// ƒ[ƒ‰‹N“®
+			// ãƒ¡ãƒ¼ãƒ©èµ·å‹•
 			ShellExecute(m_hWnd, "open", "mailto:info@psytec.co.jp", NULL, "", SW_SHOW);
 
-			// –{ƒ_ƒCƒAƒƒO‚ª‰B‚³‚ê‚éê‡‚ðl—¶‚µƒeƒLƒXƒg‚ðÄ•`‰æ
+			// æœ¬ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ãŒéš ã•ã‚Œã‚‹å ´åˆã‚’è€ƒæ…®ã—ãƒ†ã‚­ã‚¹ãƒˆã‚’å†æç”»
 			m_bPointOnMailTo = FALSE;
 			GetDlgItem(IDC_STATICMAILTO)->InvalidateRect(NULL);
 

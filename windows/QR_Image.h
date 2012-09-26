@@ -1,4 +1,4 @@
-// QR_Image.h : QR_Image ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒƒCƒ“ƒwƒbƒ_[ƒtƒ@ƒCƒ‹
+// QR_Image.h : QR_Image ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ¡ã‚¤ãƒ³ãƒ˜ãƒƒãƒ€ãƒ¼ãƒ•ã‚¡ã‚¤ãƒ«
 // Date 2006/05/17	Ver. 1.22	Psytec Inc.
 
 #if !defined(AFX_QR_IMAGE_H__963AB23C_78F7_45EE_A7C5_B3D029D08C3D__INCLUDED_)
@@ -12,17 +12,17 @@
 	#error include 'stdafx.h' before including this file for PCH
 #endif
 
-#include "resource.h" // ƒƒCƒ“ ƒVƒ“ƒ{ƒ‹
+#include "resource.h" // ãƒ¡ã‚¤ãƒ³ ã‚·ãƒ³ãƒœãƒ«
 
 /////////////////////////////////////////////////////////////////////////////
-// CQR_ImageApp ƒNƒ‰ƒX
+// CQR_ImageApp ã‚¯ãƒ©ã‚¹
 
 class CQR_ImageApp : public CWinApp
 {
 public:
 	CQR_ImageApp();
 
-// ƒI[ƒo[ƒ‰ƒCƒh
+// ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
 	//{{AFX_VIRTUAL(CQR_ImageApp)
 	public:
 	virtual BOOL InitInstance();
@@ -30,12 +30,12 @@ public:
 	//}}AFX_VIRTUAL
 
 private:
-// ƒƒ‚ƒŠ[ƒŠ[ƒNŒŸo—piƒfƒoƒbƒO‚Ì‚İj
+// ãƒ¡ãƒ¢ãƒªãƒ¼ãƒªãƒ¼ã‚¯æ¤œå‡ºç”¨ï¼ˆãƒ‡ãƒãƒƒã‚°æ™‚ã®ã¿ï¼‰
 #ifdef _DEBUG
 	CMemoryState mStart, mEnd, mDiff;
 #endif //_DEBUG
 
-// ƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+// ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 public:
 	//{{AFX_MSG(CQR_ImageApp)
 	afx_msg void OnAppAbout();
